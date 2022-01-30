@@ -1,0 +1,88 @@
+<div class="container mt-3">
+  <div class="card">
+    <div class="card-body">
+      <!--pipe |-->
+      <h2 class="card-title text-center"> {{title | uppercase }}:</h2>
+      <!--Binding form with reactive form using form variable declaring on form-technician.ts:-->
+      <form [formGroup]="form" (ngSubmit)="addOrEditTechnician()">
+        <!--TO BINDING EACH FORM, WE USE DIRECTIVE 'FORMCONTROLNAME="REFERECE"'-->
+        <div class="form-group mb-3">
+          <label for="id"><strong>Id:</strong></label>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <i class="fas fa-check-square"
+              [class.green-icon]="this.form.get('id')?.valid"></i>
+            </span>
+            <input type="number" id="id" class="form-control" formControlName="id" placeholder="Enter ID">
+          </div>
+          
+        </div>
+        <div class="form-group mb-3">
+          <label for="name"><strong>Name:</strong></label>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <i class="fas fa-check-square"
+              [class.green-icon]="this.form.get('name')?.valid"></i>
+            </span>
+            <input type="text" id="name" class="form-control" formControlName="name" maxlength="25" placeholder="Enter name">
+          </div>
+          
+        </div>
+        <div class="form-group mb-3">
+          <label for="lastName"><strong>Last Name:</strong> </label>
+          <div class="input-group mb-3">
+            <span class="input-group-text">
+              <i class="fas fa-check-square"
+              [class.green-icon]="this.form.get('lastName')?.valid"></i>
+            </span>
+            <input type="text" id="lastName" class="form-control" formControlName="lastName" maxlength="25" placeholder="Enter last name">
+          </div>
+        </div>
+        <div class="d-grid gap-2">
+          <button class="btn btn-success btn-block"  [disabled]="form.invalid" type="submit"> <i class="fas fa-database"></i>&nbsp; Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--REPASO: (IGNORAR:)-->
+<!--<div class="container mt-3">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center"> Form Technician:</h5>
+      <div class="text-center">
+        <span *ngIf="wrongForm" class="badge badge-danger">{{ wrongFormString }}</span>
+      </div>
+      <div class="form-group mb-3">
+        <label for="id">Id:</label>
+        <input type="number" id="id" [(ngModel)]="technicianId" class="form-control" placeholder="Enter ID">
+      </div>
+      <div class="form-group mb-3">
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="technicianName" class="form-control" placeholder="Enter name">
+      </div>
+      <div class="form-group mb-3">
+        <label for="lastName"> Last Name:</label>
+        <input type="text" id="lastName" [(ngModel)]="technicianLastName" class="form-control" placeholder="Enter last name">
+      </div>
+      <button (click)="addTechnician()" class="btn btn-primary btn-block" [disabled]="technicianName == '' || technicianId == null || technicianLastName == ''">Submit</button>
+    </div>
+  </div>
+</div>-->

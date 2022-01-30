@@ -1,0 +1,89 @@
+<div class="container mt-3">
+  <div class="card mt-3">
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Last Name</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr *ngFor="let technician of listTechnician; let i = index">
+            <td>{{ i+1 }}</td>
+            <td>{{ technician.id }}</td>
+            <td>{{ technician.name }}</td>
+            <td>{{ technician.lastName }}</td>
+            <!--Event binding:-->
+            <td><i (click)="editTechnician(technician)" class="far fa-edit text-info"></i></td>
+            <td><i (click)="deleteTechnicianByIndex(i)" class="far fa-trash-alt text-danger"></i></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="this.listTechnician.length === 0" class="card p-2 text-center">
+        <span>
+          <h6>There are no technician to show</h6>
+        </span> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--REPASAR:  (IGNORAR:)-->
+<!--<div class="container mt-3">
+  <div class="card mt-3">
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Last Name</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr *ngFor="let technician of technicianList; let i = index">
+            <td><span>{{i+1}}</span></td>
+            <td><span>{{technician.id}}</span></td>
+            <td><span>{{technician.name}}</span></td>
+            <td><span>{{technician.lastName}}</span></td>
+            <td><button class="btn btn-danger mt-0" (click)="deleteTechnician(i)">Delete</button></td>
+            <td><button class="btn btn-warning mt-0">Update</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="technicianList.length === 0" class="card p-2 text-center">
+        <span>
+          <h6>There are no technician to show</h6>
+        </span> 
+      </div>
+
+    </div>
+  </div>
+</div>-->
+
