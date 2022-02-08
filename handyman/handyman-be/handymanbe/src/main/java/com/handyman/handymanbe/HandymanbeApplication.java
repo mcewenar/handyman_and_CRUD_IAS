@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HandymanbeApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(HandymanbeApplication.class, args);
 	}
 

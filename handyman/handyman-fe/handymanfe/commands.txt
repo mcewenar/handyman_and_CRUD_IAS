@@ -1,0 +1,197 @@
+ANGULAR:
+
+1. see all Angular commands:
+    ng -help
+2. Create Angular app:
+    ng new
+3. Run app:
+    ng serve
+4. Run project browser default:
+    ng serve --o
+5. Deploy NG app:
+    ng build --prod
+6. Install bootstrap with npm:
+    npm install bootstrap
+7. Open default code editor
+     code .
+8. Install dependencies from a download project:
+    npm i or npm install
+9. For creating components:
+    ng g c components/navbar or ng generate component component-name
+    (g = generate
+     c = component
+     components/navbar = where generate component
+    )
+10. Crear una clase:
+    ng g cl models/nameClass
+
+11. Crear services:
+    ng g s newFolder/File
+
+12.See all tags for creating component:
+    ng g --help
+
+13. Create interceptor on Angular:
+    ng g interceptor folder/new_file
+
+
+14. Install angularfire (firebase + Angular):
+    ng add @angular/fire
+
+15. Install Toastr angular for notifications:
+    npm install ngx-toastr --save
+
+
+Available Commands:
+  add Adds support for an external library to your project.
+  analytics Configures the gathering of Angular CLI usage metrics. See https://angular.io/cli/usage-analytics-gathering.
+  build (b) Compiles an Angular app into an output directory named dist/ at the given output path. Must be executed from within a workspace directory.
+  deploy Invokes the deploy builder for a specified project or for the default project in the workspace.
+  config Retrieves or sets Angular configuration values in the angular.json file for the workspace.
+  doc (d) Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.
+  e2e (e) Builds and serves an Angular app, then runs end-to-end tests.
+  extract-i18n (i18n-extract, xi18n) Extracts i18n messages from source code.
+  generate (g) Generates and/or modifies files based on a schematic.
+  help Lists available commands and their short descriptions.
+  lint (l) Runs linting tools on Angular app code in a given project folder.
+  new (n) Creates a new workspace and an initial Angular application.
+  run Runs an Architect target with an optional custom builder configuration defined in your project.
+  serve (s) Builds and serves your app, rebuilding on file changes.
+  test (t) Runs unit tests in a project.
+  update Updates your application and its dependencies. See https://update.angular.io/
+  version (v) Outputs Angular CLI version.
+
+
+
+
+
+
+DOCKER:
+1. ver versión de Docker
+docker -- version
+2. Listar imágenes en Docker:
+docker images
+3. Listar contenedores activos:
+docker ps
+4. Listar todos los contenedores:
+docker ps -a
+5. eliminar un contenedor:
+docker container rm -f <nameContainer>
+6. Frenar o apagar un contenedor:
+docker stop <NombreContenedor>
+7. Ingresar a un contenedor:
+docker exec -it <hashContenedor> bash
+8. Comandos Linux para instalar  o configurar el contenedor manualmente:
+    -apt-get install <nombreApp>
+    -apt-get update (actualiza microkernel)
+    -cat <nombreArchivo> (para visualizar en consola archivo seleccionado)
+    -cd <file> moverse entre archivos
+    -cd .. (devolverse)
+    -pwd (ver ruta)
+    -ls (archivos dentro de la carpeta de parada)
+    -code . (abrir editor de código predeterminado)
+    -cat (ver contenido de un archivo)
+    -mkdir <nameFolder> (crea un directorio)
+    -touch <nameFil> (creaArchivo)
+    -rmdir <NameFolder> (elimina un directorio)
+    -rm -f <FileName> (elimina sin preguntar)  
+9. crear y correr un contenedor:
+docker run -itd --name <nombreContenedorCrear> <ImagenAPartirDeLaQueSeCrea>
+10. Inspeccionar el contenedor:
+docker inspect
+11. Eliminar imagen:
+docker rmi -f <UserDocker/NombreImagen> ó <hashImage>
+12. Crear y correr un contenedor en un puerto definido:
+docker run -itd -p 3000(anfitrión):80(huesped) --name contenedorName nombreImagenConElQueSeCrea
+13. Mirar los logs:
+docker logs <hashContenedor>
+14. Pausar contenedor:
+docker stop <NombreContenedor>
+15. Crear una imagen a partir de un contenedor (no necesariamente prendido):
+docker commit <contenedorName o hash> <NombreRepoDockerHub>
+16. Crear imagen a partir de un Dockerfile:
+docker built -t <NombreImagen>
+17. Actualiza la configuración de un contenedor:
+docker update <NombreContenedor>
+18. Crear un contenedor sin correrlo:
+docker create <Nombre o hash de imagen>
+19. Renombrar un contenedor: 
+docker rename <NombreViejo> <NombreNuevo>
+20. Remover un contenedor después de que pare:
+docker run -rm <NombreImagen>
+21. Empujar una imagen:
+docker push <imagen>
+22. halar una imagen:
+docker pull <imagen>
+23. Crear una imagen a partir de un Dockerfile:
+docker build -t <nombre_imagen> .
+24. Crear un contenedor con puerto a partir de una imagen:
+docker run -p 4000:4000 -e URL=0.0.0.0:4000 <hash de la imagen>
+25. Salir del contenedor:
+exit
+26. Prender un contenedor:
+docker start <name o hash del contenedor>
+
+27 y 28. CÓMO SUBIR UNA IMAGEN A DOCKERHUB:
+You need to tag your image correctly first with your registryhost:
+
+    docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+    Then docker push using that same tag.
+
+    docker push NAME[:TAG]
+    Example:
+
+    docker tag 518a41981a6a myRegistry.com/
+    
+29. crear un contenedor y correrlo en un puerto:
+docker run -dit --name <NombreContenedorACreAr> -p 8080:8080 <NombreDeLaImagen>
+
+
+
+
+Dockerfile puede tener varios elementos:
+
+FROM: indicar qué imagen quiero usar
+-
+RUN: ejecución comandos dentro del contenedor provisional. Ejem: run apt-get update
+CMD: ej: CMD ["p1","p2","p3"]. Se ejecuta siempre que se crea un contenedor (no imagen)
+-
+EXPOSE: Expone un puerto para la imagen a crear: ej. EXPOSE 80.
+-
+COPY: copiar o agregar archivos dentro de mi contenedor
+ADD: provisional de tal forma que la imagen nueva quede con esos archivos
+-
+VOLUME: carpeta compartida entre contenedores o pc afitrión
+WORKDIR: ubica en un directorio específico dentro del contenedor provisional.
+ENTRY POINT: Comando o instrucción por defecto (no se puede cambiar)
+
+
+
+CREACIÓN DE BD A PARTIR DE UNA IMAGEN:
+1. Conectar una BD en el microkernel de la imagen:
+	docker exec -it docker-db-1 psql -U postgres
+2. Listar BD:
+	\l
+3. Crear BD (SQL COMMAND):
+	CREATE DATABASE <name_db>;
+
+
+	
+
+
+
+
+
+
+
+HEROKU Y DOCKER:
+1. Loguearse en Heroku a partir de la consola:
+heroku login
+2. Ingresar a Heroku con un contenedor:
+heroku container:login
+3. Mostrar todas las aplicaciones en Heroku desde la consola:
+heroku apps
+4. subir el contenedor a la nube:
+heroku container:push web --app <nombre-del-Contenedor-en-la-nube-heroku>
+5. Mostrar el contenedor:
+heroku container:realease web --app <mismo-Nombre-del-punto-4>

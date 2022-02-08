@@ -1,0 +1,53 @@
+<div class="container mt-3">
+    <div class="card">
+      <div class="card-body">
+        <!--pipe |-->
+        <h2 class="card-title text-center"> REPORT:</h2>
+        <!--Binding form with reactive form using form variable declaring on form-technician.ts:-->
+        <form>
+          <!--TO BINDING EACH FORM, WE USE DIRECTIVE 'FORMCONTROLNAME="REFERECE"'-->
+          <div class="form-group mb-3">
+            <label for="technicianid"><strong>Technician id:</strong></label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-check-square"></i>
+              </span>
+              <input type="text" id="technicianid" class="form-control" formControlName="name" maxlength="25" placeholder="enter technician ID">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="serviceId"><strong>Services id:</strong></label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-check-square"></i>
+              </span>
+              <input type="text" id="serviceId" class="form-control" formControlName="name" maxlength="25" placeholder="enter services ID">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="initdate"><strong>Init date:</strong></label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-check-square"></i>
+              </span>
+              <input type="date" id="initdate" class="form-control" formControlName="name" value="2018-07-22" min="2017-04-01" max="2017-04-30">
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="enddate"><strong>End date:</strong></label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fas fa-check-square"></i>
+              </span>
+              <input type="date" id="enddate" class="form-control" formControlName="name" maxlength="25" placeholder="enter" value="2018-07-22" min="2017-04-01" max="2017-04-30">
+            </div>
+          </div>
+            <button class="btn btn-success btn-block" ><i class="fas fa-database"></i>&nbsp; Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
