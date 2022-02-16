@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 //Components:
 import { MainComponent } from './components/main/main.component';
+import { QueryComponent } from './components/query/query.component';
 import { ReportComponent } from './components/report/report.component';
-import { ServiceTechComponent } from './components/service-tech/service-tech.component';
 import { TechnicianComponent } from './components/technician/technician.component';
 
 
@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/main', pathMatch: 'full'}, //matchea la url completa
   {path: 'report', component: ReportComponent},
   {path: 'main', component: MainComponent},
-  {path: 'service', component: ServiceTechComponent},
+  {path: 'query', component: QueryComponent},
   {path: 'technician', component: TechnicianComponent},
   {path: '**', redirectTo: '/main', pathMatch: 'full'}
   //{path: 'update-technician', component: AppComponent }

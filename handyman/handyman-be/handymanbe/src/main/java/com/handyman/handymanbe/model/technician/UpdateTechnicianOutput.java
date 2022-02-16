@@ -12,11 +12,11 @@ public class UpdateTechnicianOutput {
             this.technician = technician;
         }
 
-        public Technician getPerson() {
+        public Technician getTechnician() {
             return technician;
         }
 
-        public void setPerson(Technician technician) {
+        public void setTechnician(Technician technician) {
             this.technician = technician;
         }
 

@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm">
+      <div class="card">
+        <div class="card-body">
+          <!--pipe |-->
+          <h2 class="card-title text-center">Get hours worked</h2>
+          <!--Binding form with reactive form using form variable declaring on form-technician.ts:-->
+          <form [formGroup]="form" (ngSubmit)="getWorkedHours()">
+            <div class="form-group mb-3">
+              <label for="idTechnician"><strong>Id technician:</strong></label>
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-check-square"
+                  [class.green-icon]="this.form.get('idTechnician')?.valid"></i>
+                </span>
+                <input type="text" id="idTechnician" class="form-control" formControlName="idTechnician" maxlength="36" placeholder="Enter technician id">
+              </div>
+
+            </div>
+            <div class="form-group mb-3">
+              <label for="numberW"><strong>Week:</strong> </label>
+              <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-check-square"
+                  [class.green-icon]="this.form.get('numberWeek')?.valid"></i>
+                </span>
+                <input type="number" id="numberW" class="form-control" formControlName="numberWeek" placeholder="Number week">
+              </div>
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-success btn-block"  [disabled]="form.invalid" type="submit"> <i class="fas fa-database"></i>&nbsp; Get Hours</button>
+            </div>
+            <!--<code>{{ this.form.get('name') | uppercase }}</code>-->
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <ul *ngIf="hoursWorked" class="list-group">
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Normal hours: </strong>{{hours?.normalHours}}</li>
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Night hours: </strong>{{hours?.nightHours}}</li>
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Sunday hours: </strong>{{hours?.sundayHours}}</li>
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Extra normal hours: </strong>{{hours?.extraNormalHours}}</li>
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Extra night hours: </strong>{{hours?.extraNightHours}}</li>
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Extra sunday hours: </strong>{{hours?.extraSundayHours}}</li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="!hoursWorked" class="card p-2 text-center">
+          <span>
+            <h6>There is no technician selected</h6>
+          </span> 
+      </div>
+    </div>
+</div>
+  

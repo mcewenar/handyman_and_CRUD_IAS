@@ -1,10 +1,22 @@
 <div class="container pt-3">
     <div class="row mt-3">
         <div class="col-lg-6">
-            <app-form-technician-component></app-form-technician-component>
+             <!--
+                 Input (parent to child):
+                    [CHILD]="PARENT"
+                 Output (child to parent):
+                    (child)="parent($event)"
+            -->
+            <app-form-technician-component [editTechnicianInput]="technicianEdit" (saveEmit)="saveEmit($event)"></app-form-technician-component>
         </div>
         <div class="col-lg-6">
-            <app-technician-component></app-technician-component>
+            <!--
+                 Input (parent to child):
+                    [CHILD]="PARENT"
+                 Output (child to parent):
+                    (child)="parent($event)"
+            -->
+            <app-technician-component [listTechnician]="technicianList" (editEmitTech)="editEmit($event)" (deleteEmitTech)="deleteEmitTechnician($event)"></app-technician-component>
         </div>
     </div>
 </div>

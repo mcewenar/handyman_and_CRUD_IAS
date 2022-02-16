@@ -1,8 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { map, Observable, Subject } from 'rxjs';
-import { TechnicianModel } from '../models/technicianModels';
+import { TechnicianBack, TechnicianModel } from '../models/technicianModels';
 // here, put all methods that you need for provide technician
 // like create, update, query or delete.
 @Injectable({
@@ -10,31 +9,30 @@ import { TechnicianModel } from '../models/technicianModels';
 })
 
 export class TechnicianService {
-  private technician$ = new Subject<any>();
+  private technician$ = new Subject<TechnicianModel>();
   technicianList: TechnicianModel[] = [];
-  baseUrl = 'http://localhost:8080/technician';
+  baseUrl: string = 'http://localhost:8080/technician';
   
 
   // With HttpClient, you can use http methods like post, put, delete and get.
   constructor(private readonly http: HttpClient) { 
   }
 
-  getAllTechnician(): Observable<any> {
+  getAllTechnician(): Observable<TechnicianModel[]> {
     return this.http.get<TechnicianModel[]>(this.baseUrl);
 
   }
-  addTechnicianS(techinician: TechnicianModel): Observable<any> {
-    return this.http.post(this.baseUrl, techinician);
+  addTechnicianS(techinician: TechnicianModel): Observable<TechnicianBack> {
+    return this.http.post<TechnicianBack>(this.baseUrl, techinician);
   }
   
 
-  deleteTechnician(id: string): Observable<any> {
-    alert(`${this.baseUrl}/${id}`);
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deleteTechnician(id: string): Observable<TechnicianModel> {
+    return this.http.delete<TechnicianModel>(`${this.baseUrl}/${id}`);
   }
 
-  editTechnicianService(id: string, technician: TechnicianModel): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, technician);
+  editTechnicianService(id: string, technician: TechnicianModel): Observable<TechnicianBack> {
+    return this.http.put<TechnicianBack>(`${this.baseUrl}/${id}`, technician);
   }
 
   //This methods are used for share data between components:
@@ -46,6 +44,11 @@ export class TechnicianService {
     //Transmite datos entre componentes. 
     //Permite a los otros compoenentes suscribirse:
     return this.technician$.asObservable();
+  }
+  //LIST:
+  getTechnicians(technician: TechnicianModel[]) {
+    //allow us emit this value
+    this.technician$.asObservable();
   }
 
 }
@@ -95,7 +98,7 @@ export class TechnicianService {
 
   //Observable:
   //Todos los que se suscriban a technician$ podrán obtener el technician que se emita con la función addTechnicianaEdit()
-  /*private technician$ = new Subject<any>();
+  /*private technician$ = new Subject<TechnicianModel>();
 
   baseUrl = 'http://localhost:8080';
   technicianList: TechnicianModel[] = [];
@@ -126,7 +129,7 @@ export class TechnicianService {
     return this.technician$.asObservable();
   }
 
-  editTechnicianService(technician: TechnicianModel): any {
+  editTechnicianService(technician: TechnicianModel): TechnicianModel {
     const index = this.technicianList.findIndex(technicianArrayService => technicianArrayService.id === technician.id);
     if(index !== -1)
       return this.technicianList.splice(index, 1 , technician);

@@ -21,8 +21,8 @@ import { FormTechnicianComponentComponent } from './components/technician/form-t
 import { MainComponent } from './components/main/main.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ReportComponent } from './components/report/report.component';
-import { ServiceTechComponent } from './components/service-tech/service-tech.component';
 import { TechnicianComponent } from './components/technician/technician.component';
+import { QueryComponent } from './components/query/query.component';
 
 
 @NgModule({
@@ -34,8 +34,8 @@ import { TechnicianComponent } from './components/technician/technician.componen
     MainComponent,
     FooterComponent,
     ReportComponent,
-    ServiceTechComponent,
-    TechnicianComponent
+    TechnicianComponent,
+    QueryComponent
   ],
   imports: [
     BrowserModule,

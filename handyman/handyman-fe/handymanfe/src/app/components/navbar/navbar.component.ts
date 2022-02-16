@@ -12,11 +12,4 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
-  searchById(): void {
-    //...
-    console.log("searching...");
-
-  }
-
 }

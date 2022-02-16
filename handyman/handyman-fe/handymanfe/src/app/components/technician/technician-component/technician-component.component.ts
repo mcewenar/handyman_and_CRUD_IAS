@@ -1,7 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
-import { TechnicianModel } from 'src/app/models/technicianModels';
+import { TechnicianBack, TechnicianModel } from 'src/app/models/technicianModels';
 import { TechnicianService } from 'src/app/services/technician';
 
 @Component({
@@ -10,46 +11,54 @@ import { TechnicianService } from 'src/app/services/technician';
   styleUrls: ['./technician-component.component.css']
 })
 export class TechnicianComponentComponent implements OnInit {
-  listTechnician: TechnicianModel[];
+  //Child to parent (edit):
+  @Output() editEmitTech = new EventEmitter<TechnicianModel>();
 
+  //Delete technician: child to parent:
+  @Output() deleteEmitTech = new EventEmitter<string>();
+
+  //EditTechnician: parent to child(edit):
+  @Input() listTechnician: TechnicianModel[];
 
   //Dependency Injection (REMINDDD): 
   constructor(private _technicianService: TechnicianService, private toastr: ToastrService) {
     this.listTechnician = []; 
   }
 
-  ngOnInit(): void {
-    this.getTechnicians();
-  }
+  ngOnInit(): void {}
 
-  getTechnicians(): void {
-    //Nos subscribimos:
-    this._technicianService.getAllTechnician().subscribe(data => {
-      console.log(data);
-      this.listTechnician = data;
-    })
-    this.listTechnician;
-  }
-  /*getListTechnician(): void {
-    this._technicianService.getAllTechnician().forEach((element: TechnicianModel) => {
-      this.listTechnician.push({
-        id: element.id,
-        name: element.name,
-        lastName: element.lastName
-      })
-    });
+  /*editTechnician(technician: TechnicianModel): void {
+    this._technicianService.addTechnicianEdit(technician);
   }*/
 
-  editTechnician(technician: TechnicianModel): void {
-    this._technicianService.addTechnicianEdit(technician);
-  }
-
   deleteTechnicianById(id: string): void {
-    this._technicianService.deleteTechnician(id);
-    this.toastr.show(`Technician has been eliminated succesful`,'Delete technician');
+    this._technicianService.deleteTechnician(id).subscribe(
+      (data: TechnicianModel) => {
+        this.toastr.success(`Technician with ${id} deleted successful`,'Register');
+        //Pass to parent component
+        this.deleteEmitTech.emit(id);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.toastr.error('ERROR IN REQUEST','ERROR');
+      },
+      () => {});
   }
 
-
+  editTechnician(technician: TechnicianModel): void {
+    this._technicianService.editTechnicianService(technician.id, technician).subscribe(
+      (data: TechnicianBack) => {
+        this.toastr.success(`Technician with ${data.technician.id} edited successful`,'Register');
+        //Pass to parent component
+        this.editEmitTech.emit(data.technician);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.toastr.error('ERROR IN REQUEST','ERROR');
+      },
+      () => {}
+      );
+  }
 }
   
 
