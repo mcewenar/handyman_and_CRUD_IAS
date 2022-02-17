@@ -52,18 +52,7 @@ export class FormTechnicianComponentComponent implements OnInit {
     })
   };
 
-  ngOnInit(): void {
-    //PENDIENTE:
-    console.log("OnInit FORM TECH");
-    console.log(this.editTechnicianInput);
-    this.form.patchValue({
-      id: this.editTechnicianInput.id,
-      name: this.editTechnicianInput.name,
-      lastName: this.editTechnicianInput.lastName,
-    })
-    
-    
-  }
+  ngOnInit(): void {}
 
   resetForm(): void {
     this.technicianId = '';
@@ -94,19 +83,19 @@ export class FormTechnicianComponentComponent implements OnInit {
     }
 
     //We call the Service METHOD for inject the dependency service on Constructor
-    this._technicianService.addTechnicianS(technician).subscribe(
+    this._technicianService.addTechnicianS(technician).subscribe({next:
       (data: TechnicianBack) => {
         this.toastr.success(`Technician with id ${data.technician.id} has been created successful`,'Register');
         this.resetForm();
         //Pass to parent component
         this.saveEmit.emit(data.technician);
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
-      () => {}
-    );
+      complete: () => {}
+    });
   }
 
   editTechnician(): void {

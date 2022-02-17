@@ -32,17 +32,18 @@ export class TechnicianComponentComponent implements OnInit {
   }*/
 
   deleteTechnicianById(id: string): void {
-    this._technicianService.deleteTechnician(id).subscribe(
+    this._technicianService.deleteTechnician(id).subscribe({next:
       (data: TechnicianModel) => {
         this.toastr.success(`Technician with ${id} deleted successful`,'Register');
         //Pass to parent component
         this.deleteEmitTech.emit(id);
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
-      () => {});
+      complete: () => {}
+    });
   }
 
   editTechnician(technician: TechnicianModel): void {
@@ -60,71 +61,3 @@ export class TechnicianComponentComponent implements OnInit {
       );
   }
 }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  /*listTechnician: TechnicianModel[];
-
-  //Dependency Injection (REMINDDD): 
-  constructor(private _technicianService: TechnicianService,
-    private toastr: ToastrService) {
-    this.listTechnician = []; 
-
-  }
-  //When initialize this component, we use this component
-  ngOnInit(): void {
-    this.listTechnician = this._technicianService.listadoTechnician();
-  }
-  getListTechnician(): void {
-    this._technicianService.listadoTechnician().forEach((element: TechnicianModel) => {
-      this.listTechnician.push({
-        id: element.id,
-        name: element.name,
-        lastName: element.lastName
-      })
-    });
-  }
-
-  deleteTechnicianByIndex(index: number): void {
-    this._technicianService.deleteTechnician(index);
-    this.toastr.show(`Technician has been eliminated succesful`,'Delete technician');
-  }
-
-  editTechnician(technician: TechnicianModel): void {
-    this._technicianService.addTechnicianEdit(technician);
-  }
-*/
-
-

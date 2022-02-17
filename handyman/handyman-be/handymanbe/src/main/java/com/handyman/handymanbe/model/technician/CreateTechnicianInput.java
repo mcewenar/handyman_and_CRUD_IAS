@@ -1,10 +1,5 @@
 package com.handyman.handymanbe.model.technician;
 
-import com.handyman.handymanbe.domain.technician.TechnicianId;
-import com.handyman.handymanbe.domain.technician.TechnicianLastName;
-import com.handyman.handymanbe.domain.technician.TechnicianName;
-
-import java.time.LocalDateTime;
 
 public class CreateTechnicianInput {
     private String name;

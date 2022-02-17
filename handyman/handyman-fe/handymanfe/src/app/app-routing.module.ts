@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/main', pathMatch: 'full'}, //matchea la url completa
   {path: 'report', component: ReportComponent},
   {path: 'main', component: MainComponent},
-  {path: 'query', component: QueryComponent},
+  {path: 'report/query', component: QueryComponent},
   {path: 'technician', component: TechnicianComponent},
   {path: '**', redirectTo: '/main', pathMatch: 'full'}
   //{path: 'update-technician', component: AppComponent }

@@ -1,6 +1,7 @@
 package com.handyman.handymanbe.controllers;
 
 
+import com.handyman.handymanbe.domain.report.Report;
 import com.handyman.handymanbe.domain.technician.Technician;
 import com.handyman.handymanbe.domain.technician.TechnicianId;
 import com.handyman.handymanbe.domain.technician.TechnicianLastName;
@@ -12,6 +13,7 @@ import com.handyman.handymanbe.model.technician.UpdateTechnicianOutput;
 import com.handyman.handymanbe.services.TechnicianService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,10 +40,11 @@ public class TechnicianController {
         @PostMapping
         public CreateTechnicianOutput createTechnician(@RequestBody CreateTechnicianInput input) {
             TechnicianId random = TechnicianId.random();
-            TechnicianName technicianName = new TechnicianName(input.getName().toString());
-            TechnicianLastName technicianLastName = new TechnicianLastName(input.getLastName().toString());
+            TechnicianName technicianName = new TechnicianName(input.getName());
+            TechnicianLastName technicianLastName = new TechnicianLastName(input.getLastName());
+            List<Report> reports = new ArrayList<>();
 
-            Technician technician = new Technician(random, technicianName, technicianLastName);
+            Technician technician = new Technician(random, technicianName, technicianLastName, reports);
             Technician createdTechnician = services.createTechnician(technician);
 
             return new CreateTechnicianOutput(createdTechnician);
@@ -65,7 +68,8 @@ public class TechnicianController {
         //Post, Patch and Put need a body
         public UpdateTechnicianOutput updateTechnician(@PathVariable("referenceId") String unsafeId, @RequestBody UpdateTechnicianInput input) {
             final TechnicianId id = TechnicianId.fromString(unsafeId);
-            Technician newTechnician = new Technician(id, new TechnicianName(input.getName()), new TechnicianLastName(input.getLastName()));
+            List<Report> reports = services.getAllReports(id);
+            Technician newTechnician = new Technician(id, new TechnicianName(input.getName()), new TechnicianLastName(input.getLastName()), reports);
             final Technician updated = services.updateTechnician(id, newTechnician);
             return new UpdateTechnicianOutput(updated);
         }

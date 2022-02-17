@@ -2,17 +2,28 @@ package com.handyman.handymanbe.controllers;
 
 import com.handyman.handymanbe.domain.report.Report;
 
+import com.handyman.handymanbe.domain.service.ServiceId;
 import com.handyman.handymanbe.domain.technician.Technician;
+import com.handyman.handymanbe.domain.technician.TechnicianId;
+import com.handyman.handymanbe.domain.workedHours.WorkedHours;
 import com.handyman.handymanbe.model.report.CreateReportInput;
 import com.handyman.handymanbe.model.report.CreateReportOutput;
 import com.handyman.handymanbe.services.ReportService;
+import com.handyman.handymanbe.services.TechnicianService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping(value="/report")
+//Response Entity: https://www.baeldung.com/spring-response-entity
 public class ReportController {
+
+    @Autowired
+    private TechnicianService technicianService;
 
     private final ReportService services;
 
@@ -25,12 +36,11 @@ public class ReportController {
     public List<Report> listReports() {
         return services.listReports();
     }
-    //Post decorator for create any product from Clientside
 
     @PostMapping
     public CreateReportOutput createReport(@RequestBody CreateReportInput input) {
-        String technicianId = input.getTechnicianId();
-        String serviceId = input.getServiceId();
+        TechnicianId technicianId = TechnicianId.fromString(input.getTechnicianId());
+        ServiceId serviceId = ServiceId.fromString(input.getServiceId());
         LocalDateTime initDate = input.getInitDate();
         LocalDateTime endDate = input.getEndDate();
 
@@ -38,6 +48,22 @@ public class ReportController {
         Report createdReport = services.createReport(report);
 
         return new CreateReportOutput(createdReport);
+    }
+
+    @GetMapping("/query/{id}/{week}")
+    public ResponseEntity<WorkedHours> getWorkedHoursByTechnicianAndWeek(
+            @PathVariable("id") String idTechnician,
+            @PathVariable("week") Integer week) {
+
+        TechnicianId technicianId = TechnicianId.fromString(idTechnician);
+        Technician foundTechnician = technicianService.getTechnician(technicianId);
+
+        if (foundTechnician == null) {
+            return new ResponseEntity<>(
+                    HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(services.calculateHoursOfWorkForTechnician(week,technicianId),HttpStatus.OK);
+        }
     }
 }
 

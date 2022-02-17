@@ -14,4 +14,12 @@ public class Service {
         this.type = type;
         this.serviceId = serviceId;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public ServiceId getServiceId() {
+        return serviceId;
+    }
 }

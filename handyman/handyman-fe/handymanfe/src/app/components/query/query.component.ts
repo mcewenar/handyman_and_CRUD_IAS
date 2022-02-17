@@ -48,8 +48,11 @@ export class QueryComponent implements OnInit {
   resetForm(): void {
     this.form.value.idTechnician = '';
     this.form.value.numberWeek = null;
-    this.hoursWorked = false;
     this.form.reset();
+  }
+
+  cleanRows() {
+    this.hoursWorked = false;
   }
 
   getWorkedHours(): void {
@@ -58,19 +61,19 @@ export class QueryComponent implements OnInit {
       technicianId: this.form.value.idTechnician,
       numberWeek: this.form.value.numberWeek
     }
-    this._hoursService.getWorkedHoursService(hours.technicianId, hours.numberWeek).subscribe(
+    this._hoursService.getWorkedHoursService(hours.technicianId, hours.numberWeek).subscribe({next:
       (data: GetWorkedHoursModel) => {
-        this.hoursWorked = true;
         this.toastr.success(`Query successful`,'GET HOURS');
         this.hours = data;
+        this.hoursWorked = true;
         this.resetForm();
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
-      () => {}
-    );
+      complete: () => {}
+    });
   }
     
 }

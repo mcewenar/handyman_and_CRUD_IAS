@@ -13,8 +13,6 @@ export class ReportService {
   constructor(private readonly http: HttpClient) { }
 
   addReportS(report: ReportModel): Observable<ReportModel> {
-    console.log(report.initDate);
-    console.log(report.endDate);
     return this.http.post<ReportModel>(this.baseUrl, report);
   }
 }

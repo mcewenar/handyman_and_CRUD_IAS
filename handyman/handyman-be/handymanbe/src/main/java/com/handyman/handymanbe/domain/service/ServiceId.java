@@ -1,7 +1,5 @@
 package com.handyman.handymanbe.domain.service;
 
-import com.handyman.handymanbe.domain.technician.TechnicianId;
-
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,12 +12,12 @@ public class ServiceId {
         this.value = value;
     }
 
-    public static TechnicianId fromString(String unsafeValue) {
-        return new TechnicianId(UUID.fromString(unsafeValue));
+    public static ServiceId fromString(String unsafeValue) {
+        return new ServiceId(UUID.fromString(unsafeValue));
     }
 
-    public static TechnicianId random() {
-        return new TechnicianId(UUID.randomUUID());
+    public static ServiceId random() {
+        return new ServiceId(UUID.randomUUID());
     }
 
     @Override

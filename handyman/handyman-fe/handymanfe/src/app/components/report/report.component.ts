@@ -95,17 +95,16 @@ export class ReportComponent implements OnInit {
     }
     
     //We call the Service METHOD for inject the dependency service on Constructor
-    this._reportService.addReportS(report).subscribe(
-      (data: ReportModel) => {
+    this._reportService.addReportS(report).subscribe({next: (data: ReportModel) => {
         this.toastr.success(`Report created successful`,'Register');
         this.resetForm();
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
-      () => {}
-    );
+      complete: () => {}
+    });
   }
 }
 

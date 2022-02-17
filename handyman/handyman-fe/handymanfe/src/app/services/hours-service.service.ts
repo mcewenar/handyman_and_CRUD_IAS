@@ -8,7 +8,7 @@ import { GetWorkedHoursModel } from '../models/getWorkedHours';
   providedIn: 'root'
 })
 export class HoursServiceService {
-  baseUrl: string = 'http://localhost:8080/hours';
+  baseUrl: string = 'http://localhost:8080/report/query';
 
   constructor(private readonly http: HttpClient) { }
 

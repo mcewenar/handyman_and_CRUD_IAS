@@ -1,5 +1,6 @@
 package com.handyman.handymanbe.repository.technician;
 
+import com.handyman.handymanbe.domain.report.Report;
 import com.handyman.handymanbe.domain.technician.Technician;
 import com.handyman.handymanbe.domain.technician.TechnicianId;
 
@@ -15,4 +16,6 @@ public interface TechnicianRepository {
     void update(TechnicianId id, Technician technician);
 
     void delete(TechnicianId id);
+
+    List<Report> getAllReports(TechnicianId technicianId);
 }

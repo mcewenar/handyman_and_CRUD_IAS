@@ -1,5 +1,6 @@
 package com.handyman.handymanbe.services;
 
+import com.handyman.handymanbe.domain.report.Report;
 import com.handyman.handymanbe.domain.technician.Technician;
 import com.handyman.handymanbe.domain.technician.TechnicianId;
 import com.handyman.handymanbe.repository.technician.TechnicianRepository;
@@ -43,6 +44,10 @@ public class TechnicianService {
 
             return repository.findOne(technicianId);
         }
+
+        public List<Report> getAllReports(TechnicianId id){
+            return repository.getAllReports(id);
+    }
 
 }
 

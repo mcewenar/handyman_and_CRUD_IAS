@@ -1,14 +1,14 @@
 package com.handyman.handymanbe.domain.workedHours;
 
 public class WorkedHours {
-    private final Integer normalHours;
-    private final Integer nightHours;
-    private final Integer sundayHours;
-    private final Integer extraNormalHours;
-    private final Integer extraNightHours;
-    private final Integer extraSundayHours;
+    private final long normalHours;
+    private final long nightHours;
+    private final long sundayHours;
+    private final long extraNormalHours;
+    private final long extraNightHours;
+    private final long extraSundayHours;
 
-    public WorkedHours(Integer normalHours, Integer nightHours, Integer sundayHours, Integer extraNormalHours, Integer extraNightHours, Integer extraSundayHours) {
+    public WorkedHours(long normalHours, long nightHours, long sundayHours, long extraNormalHours, long extraNightHours, long extraSundayHours) {
         this.normalHours = normalHours;
         this.nightHours = nightHours;
         this.sundayHours = sundayHours;
@@ -17,27 +17,27 @@ public class WorkedHours {
         this.extraSundayHours = extraSundayHours;
     }
 
-    public Integer getNormalHours() {
+    public long getNormalHours() {
         return normalHours;
     }
 
-    public Integer getNightHours() {
+    public long getNightHours() {
         return nightHours;
     }
 
-    public Integer getSundayHours() {
+    public long getSundayHours() {
         return sundayHours;
     }
 
-    public Integer getExtraNormalHours() {
+    public long getExtraNormalHours() {
         return extraNormalHours;
     }
 
-    public Integer getExtraNightHours() {
+    public long getExtraNightHours() {
         return extraNightHours;
     }
 
-    public Integer getExtraSundayHours() {
+    public long getExtraSundayHours() {
         return extraSundayHours;
     }
 }
