@@ -17,6 +17,7 @@ export class FormTechnicianComponentComponent implements OnInit {
 
   //EditTechnician: parent to child:
   @Input() editTechnicianInput: TechnicianModel;
+  
 
   regexString = '^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$'; //or regex = '^[A-Za-z ]+$';
   title = 'CREATE TECHNICIAN';
@@ -44,15 +45,17 @@ export class FormTechnicianComponentComponent implements OnInit {
                                   name: '', 
                                   lastName: ''
                                 }
-
-    this.form.patchValue({
-        id: this.editTechnicianInput.id,
-        name: this.editTechnicianInput.name,
-        lastName: this.editTechnicianInput.lastName,
-    })
   };
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.editTechnician();
+    /*this.form.patchValue({
+      id: this.editTechnicianInput.id,
+      name: this.editTechnicianInput.name,
+      lastName: this.editTechnicianInput.lastName,
+    })*/
+
+  }
 
   resetForm(): void {
     this.technicianId = '';
@@ -100,18 +103,12 @@ export class FormTechnicianComponentComponent implements OnInit {
 
   editTechnician(): void {
     console.log("EMIT TEST:", this.editTechnicianInput);
-    this.editTechnicianInput = {
-      //Here, bring values from html form:
+    //Here, bring values from html form:
       //id: this.form.getRawValue().id,
-      id: this.form.value.id,
-      name:  this.form.value.name,
-      lastName: this.form.value.lastName
-    }
-    /*this._technicianService.editTechnicianService(TECHNICIAN.id,TECHNICIAN);
-    this.toastr.info(`Technician has been updated succesful`,'Update technician');
-    this.resetForm();
-    console.log(TECHNICIAN);
-    */
+    this.form.patchValue({
+      technicianName: this.editTechnicianInput.name,
+      technicianLastName: this.editTechnicianInput.lastName,
+    })
     
   }
 }

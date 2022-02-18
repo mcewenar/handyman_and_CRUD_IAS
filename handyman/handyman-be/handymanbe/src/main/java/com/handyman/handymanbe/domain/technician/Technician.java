@@ -74,7 +74,7 @@ public class Technician {
                         normalExtraMinutesWorked += (long) report.getEndDate().getHour() - INIT_NORMAL_SHIFT_HOUR;
                     }
 
-                    //Comparacion de HORAS ENTRE 7 Y 20 7 < initDateTime & endDateTime < 20
+                    //Comparacion de HORAS ENTRE 7 Y 20; 7 < initDateTime & endDateTime < 20
                 } else if ((INIT_NORMAL_SHIFT_HOUR <= report.getInitDate().getHour() && report.getInitDate().getHour() <= END_NORMAL_SHIFT_HOUR) &&
                         (INIT_NORMAL_SHIFT_HOUR <= report.getEndDate().getHour() && report.getEndDate().getHour() <= END_NORMAL_SHIFT_HOUR)) {
                     normalMinutesWorked += workedMinutesInTheReport;

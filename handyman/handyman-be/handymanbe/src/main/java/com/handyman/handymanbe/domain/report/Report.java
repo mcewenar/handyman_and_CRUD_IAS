@@ -32,7 +32,7 @@ public class Report {
         }
 
         if(initDate.getYear() != endDate.getYear() || initDate.getMonth() != endDate.getMonth() ||  initDate.getDayOfMonth() != endDate.getDayOfMonth()) {
-            throw new IllegalArgumentException("End date cannot be equal on year, month or day");
+            throw new IllegalArgumentException("End date cannot be different on year, month or day");
         }
 
         this.technicianId = technicianId;

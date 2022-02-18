@@ -88,8 +88,6 @@ export class ReportComponent implements OnInit {
     }
     //|| (this.initDate >= this.endDate)
     if ((this.form.value.initDate >= this.form.value.endDate)) {
-      alert(this.form.value.initDate >= this.form.value.endDate)
-      
       this.toastr.error('End date cannot be less or equal than init date','ERROR');
       return;
     }

@@ -1,5 +1,7 @@
 package com.handyman.handymanbe.domain.workedHours;
 
+import java.util.Objects;
+
 public class WorkedHours {
     private final long normalHours;
     private final long nightHours;
@@ -9,6 +11,13 @@ public class WorkedHours {
     private final long extraSundayHours;
 
     public WorkedHours(long normalHours, long nightHours, long sundayHours, long extraNormalHours, long extraNightHours, long extraSundayHours) {
+        Objects.requireNonNull(normalHours, "NormalHours can not be null");
+        Objects.requireNonNull(nightHours, "NightHours can not be null");
+        Objects.requireNonNull(sundayHours, "SundayHours can not be null");
+        Objects.requireNonNull(extraNormalHours, "ExtraNormalHours can not be null");
+        Objects.requireNonNull(extraNightHours, "ExtraNightHours can not be null");
+        Objects.requireNonNull(extraSundayHours, "extraSundayHours can not be null");
+
         this.normalHours = normalHours;
         this.nightHours = nightHours;
         this.sundayHours = sundayHours;
