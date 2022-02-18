@@ -47,17 +47,17 @@ export class TechnicianComponentComponent implements OnInit {
   }
 
   editTechnician(technician: TechnicianModel): void {
-    this._technicianService.editTechnicianService(technician.id, technician).subscribe(
+    this._technicianService.editTechnicianService(technician.id, technician).subscribe({next:
       (data: TechnicianBack) => {
         this.toastr.success(`Technician with ${data.technician.id} edited successful`,'Register');
         //Pass to parent component
         this.editEmitTech.emit(data.technician);
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         console.log(error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
-      () => {}
-      );
+      complete: () => {}
+    });
   }
 }

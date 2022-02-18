@@ -19,10 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/technician")
 public class TechnicianController {
-    //Spring boot decorators
-
     //Here, we will create the endpoints fot communicate us with the frontend using HTTP methods Hand in hand with Api-rest
-
         //Connect Repository with controller using repository attribute name.
         private final TechnicianService services;
 

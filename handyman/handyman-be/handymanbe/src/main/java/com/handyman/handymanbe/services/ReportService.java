@@ -31,11 +31,8 @@ public class ReportService {
     }
 
     public WorkedHours calculateHoursOfWorkForTechnician(Integer week, TechnicianId id){
-
         Technician technician = technicianService.getTechnician(id);
-
         List<Report> reports = repository.getAllFromTechnicianByWeek(week, id);
-
         WorkedHours workedHours = technician.WorkedHoursCalculate(reports);
 
         return workedHours;

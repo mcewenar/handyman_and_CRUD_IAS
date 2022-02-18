@@ -18,7 +18,6 @@ export class QueryComponent implements OnInit {
 
   hours: GetWorkedHoursModel;
   hoursWorked: boolean;
-  minDate: string;
 
   form: FormGroup;
 
@@ -30,8 +29,6 @@ export class QueryComponent implements OnInit {
     })
 
     this.hoursWorked = false;
-
-    this.minDate = new Date().toISOString().split('T')[0];
 
     this.hours = {
       normalHours: 0, 
@@ -51,7 +48,7 @@ export class QueryComponent implements OnInit {
     this.form.reset();
   }
 
-  cleanRows() {
+  cleanRows(): void {
     this.hoursWorked = false;
   }
 
@@ -69,7 +66,7 @@ export class QueryComponent implements OnInit {
         this.resetForm();
       },
       error: (error: HttpErrorResponse) => {
-        console.log(error);
+        console.log(error.error);
         this.toastr.error('ERROR IN REQUEST','ERROR');
       },
       complete: () => {}

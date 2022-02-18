@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//Response Entity: https://www.baeldung.com/spring-response-entity
 @RestController
 @RequestMapping(value="/report")
-//Response Entity: https://www.baeldung.com/spring-response-entity
 public class ReportController {
 
     @Autowired
@@ -49,7 +49,7 @@ public class ReportController {
 
         return new CreateReportOutput(createdReport);
     }
-
+    //Other way with ResponseEntity:
     @GetMapping("/query/{id}/{week}")
     public ResponseEntity<WorkedHours> getWorkedHoursByTechnicianAndWeek(
             @PathVariable("id") String idTechnician,
@@ -59,8 +59,7 @@ public class ReportController {
         Technician foundTechnician = technicianService.getTechnician(technicianId);
 
         if (foundTechnician == null) {
-            return new ResponseEntity<>(
-                    HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(services.calculateHoursOfWorkForTechnician(week,technicianId),HttpStatus.OK);
         }

@@ -49,7 +49,6 @@ public class Technician {
             workedMinutesInTheReport = ChronoUnit.HOURS.between(report.getInitDate(), report.getEndDate());
 
             //Comparacion DIAS ENTRE LUNES Y SABADO:
-
             //.CompareTo
             //The method returns 0 if the string is equal to the other string. A value less than 0 is returned if the string is less than
             // the other string (less characters) and a value greater than 0 if
@@ -121,7 +120,8 @@ public class Technician {
                 sundayMinutesWorked,
                 normalExtraMinutesWorked,
                 nightExtraMinutesWorked,
-                sundayExtraMinutesWorked);
+                sundayExtraMinutesWorked
+        );
     }
 
     public void addReport(Report report){

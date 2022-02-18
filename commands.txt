@@ -41,6 +41,10 @@ ANGULAR:
 15. Install Toastr angular for notifications:
     npm install ngx-toastr --save
 
+16. Unit test Angular:
+	ng test
+	
+
 
 Available Commands:
   add Adds support for an external library to your project.
