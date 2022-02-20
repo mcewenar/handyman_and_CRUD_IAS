@@ -9,16 +9,10 @@ import { TechnicianService } from 'src/app/services/technician';
 })
 export class TechnicianComponent implements OnInit {
 
-  technicianEdit: TechnicianModel;
   
   technicianList: TechnicianModel[] = [];
 
   constructor(private readonly _technicianService: TechnicianService) { 
-    this.technicianEdit = {
-                            id: '', 
-                            name:'', 
-                            lastName: ''
-                          };
   }
 
   ngOnInit(): void {
@@ -43,15 +37,13 @@ export class TechnicianComponent implements OnInit {
       this.technicianList.splice(index, 1);
   }
 
-  editEmit(technician: TechnicianModel): void {
-    this.technicianEdit = technician;
-    //console.log(this.technicianEdit);
-    const index = this.technicianList.findIndex((technicianFromArray: TechnicianModel) => technicianFromArray.id === this.technicianEdit.id);
+  editTechnician(technician: TechnicianModel): any {
+    const index = this.technicianList.findIndex(technicianArrayService => technicianArrayService.id === technician.id);
     if(index !== -1)
-      console.log(index);
-      this.technicianList.splice(index, 1 , this.technicianEdit);
-    //Now, we're pass to child component form-technician-component using @input
+      return this.technicianList.splice(index, 1 , technician);
+    return;
   }
+  
 
 
 }

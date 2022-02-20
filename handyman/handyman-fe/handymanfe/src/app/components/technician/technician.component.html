@@ -7,7 +7,7 @@
                  Output (child to parent):
                     (child)="parent($event)"
             -->
-            <app-form-technician-component [editTechnicianInput]="technicianEdit" (saveEmit)="saveEmit($event)"></app-form-technician-component>
+            <app-form-technician-component (saveEmit)="saveEmit($event)" (editEmit)="editTechnician($event)"></app-form-technician-component>
         </div>
         <div class="col-lg-6">
             <!--
@@ -16,7 +16,7 @@
                  Output (child to parent):
                     (child)="parent($event)"
             -->
-            <app-technician-component [listTechnician]="technicianList" (editEmitTech)="editEmit($event)" (deleteEmitTech)="deleteEmitTechnician($event)"></app-technician-component>
+            <app-technician-component [listTechnician]="technicianList" (deleteEmitTech)="deleteEmitTechnician($event)"></app-technician-component>
         </div>
     </div>
 </div>

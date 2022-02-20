@@ -12,7 +12,6 @@ import { TechnicianService } from 'src/app/services/technician';
 })
 export class TechnicianComponentComponent implements OnInit {
   //Child to parent (edit):
-  @Output() editEmitTech = new EventEmitter<TechnicianModel>();
 
   //Delete technician: child to parent:
   @Output() deleteEmitTech = new EventEmitter<string>();
@@ -20,16 +19,12 @@ export class TechnicianComponentComponent implements OnInit {
   //EditTechnician: parent to child(edit):
   @Input() listTechnician: TechnicianModel[];
 
-  //Dependency Injection (REMINDDD): 
+  //Dependency Injection: 
   constructor(private _technicianService: TechnicianService, private toastr: ToastrService) {
     this.listTechnician = []; 
   }
 
   ngOnInit(): void {}
-
-  /*editTechnician(technician: TechnicianModel): void {
-    this._technicianService.addTechnicianEdit(technician);
-  }*/
 
   deleteTechnicianById(id: string): void {
     this._technicianService.deleteTechnician(id).subscribe({next:
@@ -46,18 +41,10 @@ export class TechnicianComponentComponent implements OnInit {
     });
   }
 
+
+  //Other way:
   editTechnician(technician: TechnicianModel): void {
-    this._technicianService.editTechnicianService(technician.id, technician).subscribe({next:
-      (data: TechnicianBack) => {
-        this.toastr.success(`Technician with ${data.technician.id} edited successful`,'Register');
-        //Pass to parent component
-        this.editEmitTech.emit(data.technician);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error);
-        this.toastr.error('ERROR IN REQUEST','ERROR');
-      },
-      complete: () => {}
-    });
+    //From here we send(emit) value to the service.
+    this._technicianService.addTechnicianEdit(technician);
   }
 }

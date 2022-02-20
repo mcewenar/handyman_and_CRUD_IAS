@@ -35,6 +35,13 @@ export class TechnicianService {
     return this.http.put<TechnicianBack>(`${this.baseUrl}/${id}`, technician);
   }
 
+  //LIST:
+  getTechnicians(technician: TechnicianModel[]) {
+    //allow us emit this value
+    this.technician$.asObservable();
+  }
+  
+
   //This methods are used for share data between components:
   addTechnicianEdit(technician: TechnicianModel) {
     //allow us emit this value
@@ -45,11 +52,10 @@ export class TechnicianService {
     //Permite a los otros compoenentes suscribirse:
     return this.technician$.asObservable();
   }
-  //LIST:
-  getTechnicians(technician: TechnicianModel[]) {
-    //allow us emit this value
-    this.technician$.asObservable();
-  }
+  
+
+
+
 
 }
 

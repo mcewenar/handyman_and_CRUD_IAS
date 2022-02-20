@@ -12,11 +12,11 @@ import { TechnicianService } from 'src/app/services/technician';
 })
 export class FormTechnicianComponentComponent implements OnInit {
 
-  //Child to parent:
+  //Child to parent: CREATE TECHNICIAN
   @Output() saveEmit = new EventEmitter<TechnicianModel>();
 
-  //EditTechnician: parent to child:
-  @Input() editTechnicianInput: TechnicianModel;
+  //Child to parent: EDIT TECHNICIAN:
+  @Output() editEmit = new EventEmitter<TechnicianModel>();
   
 
   regexString = '^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$'; //or regex = '^[A-Za-z ]+$';
@@ -39,21 +39,26 @@ export class FormTechnicianComponentComponent implements OnInit {
     this.technicianId = '';
     this.technicianName = '';
     this.technicianLastName = '';
-
-    this.editTechnicianInput = {
-                                  id: '', 
-                                  name: '', 
-                                  lastName: ''
-                                }
   };
 
+  
+
   ngOnInit(): void {
-    this.editTechnician();
-    /*this.form.patchValue({
-      id: this.editTechnicianInput.id,
-      name: this.editTechnicianInput.name,
-      lastName: this.editTechnicianInput.lastName,
-    })*/
+    this._technicianService.getTechnicianEdit().subscribe(data => {
+      //information arrive here using .subscribe: from technician-component to form-technician
+      this.technicianId = data.id;
+      this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
+      //method for edit form:
+      this.form.patchValue({
+        id: data.id,
+        name: data.name,
+        lastName: data.lastName
+      })
+      this.technicianId = data.id;
+      console.log(this.technicianId);
+
+    })
+    
 
   }
 
@@ -101,14 +106,29 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
+
+  //Other way:
   editTechnician(): void {
-    console.log("EMIT TEST:", this.editTechnicianInput);
-    //Here, bring values from html form:
-      //id: this.form.getRawValue().id,
-    this.form.patchValue({
-      technicianName: this.editTechnicianInput.name,
-      technicianLastName: this.editTechnicianInput.lastName,
-    })
-    
+    const technicianEdit: TechnicianModel = {
+      //Here, bring values from html form:
+      id: this.technicianId,
+      name:  this.form.value.name,
+      lastName: this.form.value.lastName
+    }
+
+    this._technicianService.editTechnicianService(technicianEdit.id, technicianEdit).subscribe({next:
+      (data: TechnicianBack) => {
+        this.toastr.success(`Technician with ${data.technician.id} edited successful`,'Register');
+        this.editEmit.emit(technicianEdit);
+        this.resetForm();
+        
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+        this.toastr.error('ERROR IN REQUEST','ERROR');
+      },
+      complete: () => {}
+    });
   }
+
 }
