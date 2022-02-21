@@ -28,8 +28,6 @@ export class FormTechnicianComponentComponent implements OnInit {
   technicianName: string;
   technicianLastName: string;
 
-  
-
   constructor(private fb: FormBuilder, private _technicianService: TechnicianService, private toastr: ToastrService) {
     //In this way, we use forms with ReactiveForms:
     this.form = this.fb.group({
@@ -41,25 +39,8 @@ export class FormTechnicianComponentComponent implements OnInit {
     this.technicianLastName = '';
   };
 
-  
-
   ngOnInit(): void {
-    this._technicianService.getTechnicianEdit().subscribe(data => {
-      //information arrive here using .subscribe: from technician-component to form-technician
-      this.technicianId = data.id;
-      this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
-      //method for edit form:
-      this.form.patchValue({
-        id: data.id,
-        name: data.name,
-        lastName: data.lastName
-      })
-      this.technicianId = data.id;
-      console.log(this.technicianId);
-
-    })
-    
-
+    this.editNgOnInit();
   }
 
   resetForm(): void {
@@ -69,7 +50,6 @@ export class FormTechnicianComponentComponent implements OnInit {
     this.form.reset();
     this.title = 'Create technician';
   }
-
 
   addOrEditTechnician(): void {
     console.log(this.form);
@@ -106,8 +86,6 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
-
-  //Other way:
   editTechnician(): void {
     const technicianEdit: TechnicianModel = {
       //Here, bring values from html form:
@@ -121,7 +99,6 @@ export class FormTechnicianComponentComponent implements OnInit {
         this.toastr.success(`Technician with ${data.technician.id} edited successful`,'Register');
         this.editEmit.emit(technicianEdit);
         this.resetForm();
-        
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
@@ -131,4 +108,18 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
+  editNgOnInit(): void {
+    this._technicianService.getTechnicianEdit().subscribe(data => {
+      //information arrive here using .subscribe: from technician-component to form-technician
+      this.technicianId = data.id;
+      this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
+      //method for edit form:
+      this.form.patchValue({
+        id: data.id,
+        name: data.name,
+        lastName: data.lastName
+      })
+      this.technicianId = data.id;
+    })
+  }
 }

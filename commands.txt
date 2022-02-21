@@ -43,6 +43,9 @@ ANGULAR:
 
 16. Unit test Angular:
 	ng test
+
+17. End to end (e2e) test:
+	ng e2e
 	
 
 

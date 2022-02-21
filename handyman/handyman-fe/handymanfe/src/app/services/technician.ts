@@ -7,13 +7,16 @@ import { TechnicianBack, TechnicianModel } from '../models/technicianModels';
 @Injectable({
   providedIn: 'root'
 })
-
+//Observable:
+  //Todos los que se suscriban a technician$ podrán obtener el technician que se emita con la función addTechnicianaEdit()
+  /*private technician$ = new Subject<TechnicianModel>();*/
 export class TechnicianService {
   private technician$ = new Subject<TechnicianModel>();
+
   technicianList: TechnicianModel[] = [];
+
   baseUrl: string = 'http://localhost:8080/technician';
   
-
   // With HttpClient, you can use http methods like post, put, delete and get.
   constructor(private readonly http: HttpClient) { 
   }
@@ -41,7 +44,6 @@ export class TechnicianService {
     this.technician$.asObservable();
   }
   
-
   //This methods are used for share data between components:
   addTechnicianEdit(technician: TechnicianModel) {
     //allow us emit this value
@@ -53,96 +55,4 @@ export class TechnicianService {
     return this.technician$.asObservable();
   }
   
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //Observable:
-  //Todos los que se suscriban a technician$ podrán obtener el technician que se emita con la función addTechnicianaEdit()
-  /*private technician$ = new Subject<TechnicianModel>();
-
-  baseUrl = 'http://localhost:8080';
-  technicianList: TechnicianModel[] = [];
-
-  
-
-  addTechnicianS(technician: TechnicianModel): void {
-      this.technicianList.push(technician);
-  }
-
-  listadoTechnician(): TechnicianModel[] {
-    return this.technicianList;
-  }
-
-  deleteTechnician(index: number): TechnicianModel[] {
-    return this.technicianList.splice(index, 1);
-  }
-
-  //This methods are used for share data between components:
-  addTechnicianEdit(technician: TechnicianModel) {
-    //allow us emit this value
-    this.technician$.next(technician);
-  }
-
-  getTechnicianEdit(): Observable<TechnicianModel> {
-    //Transmite datos entre componentes. 
-    //Permite a los otros compoenentes suscribirse:
-    return this.technician$.asObservable();
-  }
-
-  editTechnicianService(technician: TechnicianModel): TechnicianModel {
-    const index = this.technicianList.findIndex(technicianArrayService => technicianArrayService.id === technician.id);
-    if(index !== -1)
-      return this.technicianList.splice(index, 1 , technician);
-    return;
-  }
-
-  getTechnicianById(id: number) {
-    return this.http.get<TechnicianModel>(`${this.baseUrl}/${id}`);
-  }*/
-
