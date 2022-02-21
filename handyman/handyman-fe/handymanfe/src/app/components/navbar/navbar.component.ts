@@ -8,7 +8,7 @@ import { TechnicianService } from 'src/app/services/technician';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private _technicianService: TechnicianService) { }
+  constructor(private readonly _technicianService: TechnicianService) { }
 
   ngOnInit(): void {
   }

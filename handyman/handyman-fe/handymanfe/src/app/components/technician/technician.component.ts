@@ -7,9 +7,9 @@ import { TechnicianService } from 'src/app/services/technician';
   templateUrl: './technician.component.html',
   styleUrls: ['./technician.component.css']
 })
+//Pattern smart component: 2 child, 1 parent
 export class TechnicianComponent implements OnInit {
 
-  
   technicianList: TechnicianModel[] = [];
 
   constructor(private readonly _technicianService: TechnicianService) { 

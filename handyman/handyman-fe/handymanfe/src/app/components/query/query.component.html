@@ -25,7 +25,7 @@
                   <i class="fas fa-check-square"
                   [class.green-icon]="this.form.get('numberWeek')?.valid"></i>
                 </span>
-                <input type="number" id="numberW" class="form-control" formControlName="numberWeek" placeholder="Number week">
+                <input type="number" id="numberW" class="form-control" formControlName="numberWeek" placeholder="Enter number week">
               </div>
             </div>
             <div class="d-grid gap-2">
@@ -50,9 +50,7 @@
               <li class="list-group-item disabled d-flex justify-content-between"><strong>Extra night hours: </strong>{{hours?.extraNightHours}}</li>
               <li class="list-group-item disabled d-flex justify-content-between"><strong>Extra sunday hours: </strong>{{hours?.extraSundayHours}}</li>
               <li class="list-group-item d-flex justify-content-between"><button (click)="cleanRows()" class="btn btn-warning"><i class="fas fa-snowplow"></i>&nbsp; Clean rows</button></li>
-              
             </ul>
-            
           </div>
         </div>
         <div *ngIf="!hoursWorked" class="card p-2 text-center">

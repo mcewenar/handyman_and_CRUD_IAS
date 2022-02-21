@@ -1,5 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { FormTechnicianComponentComponent } from './form-technician-component.component';
@@ -14,9 +15,9 @@ fdescribe('FormTechnicianComponentComponent', () => { //Callback or function ins
 
   beforeEach(async () => { //Unit test configuration
     await TestBed.configureTestingModule({
-      declarations: [ FormTechnicianComponentComponent ],
+      declarations: [FormTechnicianComponentComponent],
       providers: [],
-      imports: []
+      imports: [ReactiveFormsModule]
     })
     .compileComponents();
   });
@@ -25,7 +26,7 @@ fdescribe('FormTechnicianComponentComponent', () => { //Callback or function ins
     fixture = TestBed.createComponent(FormTechnicianComponentComponent); //Get all from the component
     component = fixture.componentInstance;
     de = fixture.debugElement;
-    fixture.detectChanges();
+    fixture.detectChanges(); //Detect changes each time and then renderize
   });
 
   beforeAll(() => {
@@ -43,5 +44,41 @@ fdescribe('FormTechnicianComponentComponent', () => { //Callback or function ins
     expect(title.nativeElement.innerText).toBe('Fail');
   });
 
-});
+  it('', ()=> {
+    // A===B?
+    const titleExpect = 'hello';
+    expect(titleExpect).toBe('hello world');
+    //To equal: compare between objects or arrays:
+    const ObjectN = {name: 'Juan', lastName: 'Arango'};
+    const ObjectN2 = {name: 'Juliana', lastName: 'Mejía'};
+    //Have they the same reference?
+    expect(ObjectN).toEqual(ObjectN2);
+    //Compare booleans: TobeTrue or toBeFalse
+    expect(true).toBeFalse();
+    expect(false).toBeTrue();
 
+    //To methods:
+                      //(Which contain this method, method1); 
+    const spyMethod = spyOn(component,'addOrEditTechnician');
+    expect(spyMethod).toHaveBeenCalledWith();
+    
+  });
+
+  //validate Form technician:
+  describe('[Form validation]',() => {
+    describe('Control "name"', () => {
+      it('When this control has an empty value, must be invalid control - required',() => {
+        //Pattern AAA
+        const nameControl = component.form.get('name');
+        const emptyValue = '';
+
+        nameControl?.setValue(emptyValue);
+
+        //expect(nameControl.errors.required);
+
+      })
+
+    })
+
+  })
+});

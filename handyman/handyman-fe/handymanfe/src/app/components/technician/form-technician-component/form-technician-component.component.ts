@@ -14,19 +14,13 @@ export class FormTechnicianComponentComponent implements OnInit {
 
   //Child to parent: CREATE TECHNICIAN
   @Output() saveEmit = new EventEmitter<TechnicianModel>();
-
   //Child to parent: EDIT TECHNICIAN:
   @Output() editEmit = new EventEmitter<TechnicianModel>();
   
-
   regexString = '^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$'; //or regex = '^[A-Za-z ]+$';
   title = 'CREATE TECHNICIAN';
-
   form: FormGroup;
-
   technicianId: string;
-  technicianName: string;
-  technicianLastName: string;
 
   constructor(private fb: FormBuilder, private _technicianService: TechnicianService, private toastr: ToastrService) {
     //In this way, we use forms with ReactiveForms:
@@ -35,8 +29,6 @@ export class FormTechnicianComponentComponent implements OnInit {
       lastName: ["",[Validators.required, Validators.minLength(1), Validators.pattern(this.regexString)]]
     }) 
     this.technicianId = '';
-    this.technicianName = '';
-    this.technicianLastName = '';
   };
 
   ngOnInit(): void {
@@ -45,8 +37,8 @@ export class FormTechnicianComponentComponent implements OnInit {
 
   resetForm(): void {
     this.technicianId = '';
-    this.technicianName = '';
-    this.technicianLastName = '';
+    this.form.value.name = ''
+    this.form.value.lastName = ''
     this.form.reset();
     this.title = 'Create technician';
   }
@@ -54,10 +46,10 @@ export class FormTechnicianComponentComponent implements OnInit {
   addOrEditTechnician(): void {
     console.log(this.form);
     if(this.technicianId === '') {
-      console.log("entre a crear");      
+      console.log("entré a crear");      
       this.addTechnician();
     } else {
-      console.log("entre a editar");     
+      console.log("entré a editar");     
       this.editTechnician();
     }
   }
@@ -86,6 +78,21 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
+  editNgOnInit(): void {
+    this._technicianService.getTechnicianEdit().subscribe(data => {
+      //information arrive here using .subscribe: from technician-component to form-technician
+      this.technicianId = data.id;
+      this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
+      //method for edit form:
+      this.form.patchValue({
+        id: data.id,
+        name: data.name,
+        lastName: data.lastName
+      })
+      this.technicianId = data.id;
+    })
+  }
+
   editTechnician(): void {
     const technicianEdit: TechnicianModel = {
       //Here, bring values from html form:
@@ -108,18 +115,5 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
-  editNgOnInit(): void {
-    this._technicianService.getTechnicianEdit().subscribe(data => {
-      //information arrive here using .subscribe: from technician-component to form-technician
-      this.technicianId = data.id;
-      this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
-      //method for edit form:
-      this.form.patchValue({
-        id: data.id,
-        name: data.name,
-        lastName: data.lastName
-      })
-      this.technicianId = data.id;
-    })
-  }
 }
+

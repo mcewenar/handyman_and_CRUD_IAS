@@ -20,7 +20,7 @@ export class TechnicianComponentComponent implements OnInit {
   @Input() listTechnician: TechnicianModel[];
 
   //Dependency Injection: 
-  constructor(private _technicianService: TechnicianService, private toastr: ToastrService) {
+  constructor(private readonly _technicianService: TechnicianService, private toastr: ToastrService) {
     this.listTechnician = []; 
   }
 
@@ -40,7 +40,6 @@ export class TechnicianComponentComponent implements OnInit {
       complete: () => {}
     });
   }
-
 
   //Other way:
   editTechnician(technician: TechnicianModel): void {

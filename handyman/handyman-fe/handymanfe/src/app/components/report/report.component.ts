@@ -27,7 +27,7 @@ export class ReportComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private _reportService:  ReportService, private toastr: ToastrService) {
+  constructor(private fb: FormBuilder, private readonly _reportService:  ReportService, private toastr: ToastrService) {
     this.form = this.fb.group({
       technicianid: ['',[Validators.required, Validators.minLength(36), Validators.maxLength(36), Validators.pattern(this.regexString)]],
       serviceid: ['',[Validators.required, Validators.minLength(36), Validators.maxLength(36), Validators.pattern(this.regexString)]],
@@ -52,23 +52,8 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //2018-07-22
+    
   }
-
-  /*validateDates() {
-    if (this.form.value.initDate >= this.form.value.endDate) {
-      alert("hola");
-      
-    }
-  }*/
-
-  /*resetForm(): void {
-    this.technicianId = '';
-    this.serviceId = '';
-    this.initDate = new Date();
-    this.endDate = new Date();
-    this.form.reset();
-  }*/
 
   resetForm(): void {
     this.form.value.technicianid = '';

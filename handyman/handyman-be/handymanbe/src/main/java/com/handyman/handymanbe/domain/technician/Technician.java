@@ -48,11 +48,12 @@ public class Technician {
             //Get the hours between init and end
             workedMinutesInTheReport = ChronoUnit.HOURS.between(report.getInitDate(), report.getEndDate());
 
-            //Comparacion DIAS ENTRE LUNES Y SABADO:
+
             //.CompareTo
             //The method returns 0 if the string is equal to the other string. A value less than 0 is returned if the string is less than
             // the other string (less characters) and a value greater than 0 if
             // the string is greater than the other string (more characters).
+            //Comparacion DIAS ENTRE LUNES Y SABADO:
             if (report.getInitDate().getDayOfWeek().compareTo(DayOfWeek.MONDAY) >= 0 && report.getInitDate().getDayOfWeek().compareTo(DayOfWeek.SATURDAY) <= 0) {
 
                 //Comparacion de HORAS ENTRE 0 y 7

@@ -21,7 +21,7 @@ export class QueryComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private _hoursService: HoursServiceService, private toastr: ToastrService) {
+  constructor(private fb: FormBuilder, private readonly _hoursService: HoursServiceService, private toastr: ToastrService) {
     //In this way, we use forms with ReactiveForms:
     this.form = this.fb.group({
       idTechnician: ["",[Validators.required, Validators.minLength(36), Validators.maxLength(36), Validators.pattern(this.regexString)]],
