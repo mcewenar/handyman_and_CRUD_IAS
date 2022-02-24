@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { TechnicianBack, TechnicianModel } from 'src/app/models/technicianModels';
 import { TechnicianService } from 'src/app/services/technician';
 
@@ -10,7 +11,7 @@ import { TechnicianService } from 'src/app/services/technician';
   templateUrl: './form-technician-component.component.html',
   styleUrls: ['./form-technician-component.component.css']
 })
-export class FormTechnicianComponentComponent implements OnInit {
+export class FormTechnicianComponentComponent implements OnInit, OnDestroy {
 
   //Child to parent: CREATE TECHNICIAN
   @Output() saveEmit = new EventEmitter<TechnicianModel>();
@@ -21,24 +22,27 @@ export class FormTechnicianComponentComponent implements OnInit {
   title = 'CREATE TECHNICIAN';
   form: FormGroup;
   technicianId: string;
+  editSubscription$: Subscription;
 
-  constructor(private fb: FormBuilder, private _technicianService: TechnicianService, private toastr: ToastrService) {
+
+  constructor(private fb: FormBuilder, private readonly _technicianService: TechnicianService, private toastr: ToastrService) {
     //In this way, we use forms with ReactiveForms:
     this.form = this.fb.group({
       name: ["",[Validators.required, Validators.minLength(1), Validators.pattern(this.regexString)]],
       lastName: ["",[Validators.required, Validators.minLength(1), Validators.pattern(this.regexString)]]
     }) 
     this.technicianId = '';
+    this.editSubscription$ = new Subscription();
   };
 
   ngOnInit(): void {
-    this.editNgOnInit();
+    this.listenerEdit();
   }
 
   resetForm(): void {
     this.technicianId = '';
-    this.form.value.name = ''
-    this.form.value.lastName = ''
+    this.form.value.name = '';
+    this.form.value.lastName = '';
     this.form.reset();
     this.title = 'Create technician';
   }
@@ -78,8 +82,8 @@ export class FormTechnicianComponentComponent implements OnInit {
     });
   }
 
-  editNgOnInit(): void {
-    this._technicianService.getTechnicianEdit().subscribe(data => {
+  listenerEdit(): void {
+    this.editSubscription$ = this._technicianService.getTechnicianEdit().subscribe((data: TechnicianModel) => {
       //information arrive here using .subscribe: from technician-component to form-technician
       this.technicianId = data.id;
       this.title = `EDIT TECHNICIAN WITH ID ${data.id}`;
@@ -113,6 +117,11 @@ export class FormTechnicianComponentComponent implements OnInit {
       },
       complete: () => {}
     });
+  }
+  //BUENA PRÁCTICA
+  ngOnDestroy(): void {
+      //lO QUE NO ES HTTP REQUEST, NO SE AUTODESTRUYE
+      this.editSubscription$.unsubscribe();
   }
 
 }

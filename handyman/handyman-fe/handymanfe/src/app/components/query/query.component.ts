@@ -31,6 +31,7 @@ export class QueryComponent implements OnInit {
     this.hoursWorked = false;
 
     this.hours = {
+      totalHours: 0,
       normalHours: 0, 
       nightHours: 0, 
       sundayHours: 0,

@@ -34,8 +34,5 @@ public class InternalModule extends SimpleModule {
         addSerializer(ServiceId.class, new ServiceIdCodecs.Serializer());
         addDeserializer(ServiceId.class, new ServiceIdCodecs.Deserializer());
 
-
-
-
     }
 }

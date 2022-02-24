@@ -8,7 +8,6 @@ public class TechnicianId {
 
     public TechnicianId(UUID value) {
         Objects.requireNonNull(value, "Technician id can not be null");
-        //REGEX (MEJORAR)
         this.value = value;
     }
 

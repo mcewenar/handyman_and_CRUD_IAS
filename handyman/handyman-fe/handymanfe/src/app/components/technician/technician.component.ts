@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TechnicianBack, TechnicianModel } from 'src/app/models/technicianModels';
 import { TechnicianService } from 'src/app/services/technician';
 
@@ -11,8 +12,10 @@ import { TechnicianService } from 'src/app/services/technician';
 export class TechnicianComponent implements OnInit {
 
   technicianList: TechnicianModel[] = [];
+  getListSubscription$: Subscription;
 
   constructor(private readonly _technicianService: TechnicianService) { 
+    this.getListSubscription$ = new Subscription();
   }
 
   ngOnInit(): void {
@@ -25,7 +28,7 @@ export class TechnicianComponent implements OnInit {
 
   getTechnicians(): void {
     //Nos subscribimos:
-    this._technicianService.getAllTechnician().subscribe(data => {
+    this.getListSubscription$ = this._technicianService.getAllTechnician().subscribe((data: TechnicianModel[]) => {
       console.log(data);
       this.technicianList = data;
     })
@@ -43,7 +46,9 @@ export class TechnicianComponent implements OnInit {
       return this.technicianList.splice(index, 1 , technician);
     return;
   }
-  
 
-
+  ngOnDestroy(): void {
+    //lO QUE NO ES HTTP REQUEST, NO SE AUTODESTRUYE
+    this.getListSubscription$.unsubscribe();
+  }
 }

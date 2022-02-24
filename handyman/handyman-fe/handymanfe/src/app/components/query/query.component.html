@@ -43,6 +43,7 @@
           <div class="card-title">
             <!---->
             <ul *ngIf="hoursWorked" class="list-group">
+              <li class="list-group-item disabled d-flex justify-content-between"><strong>Total hours: </strong>{{hours?.totalHours}}</li>
               <li class="list-group-item disabled d-flex justify-content-between"><strong>Normal hours: </strong>{{hours?.normalHours}}</li>
               <li class="list-group-item disabled d-flex justify-content-between"><strong>Night hours: </strong>{{hours?.nightHours}}</li>
               <li class="list-group-item disabled d-flex justify-content-between"><strong>Sunday hours: </strong>{{hours?.sundayHours}}</li>

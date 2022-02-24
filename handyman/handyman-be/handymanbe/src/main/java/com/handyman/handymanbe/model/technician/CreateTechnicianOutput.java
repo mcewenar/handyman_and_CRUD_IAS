@@ -17,11 +17,6 @@ public class CreateTechnicianOutput {
         return technician;
     }
 
-    //PENDIENTE:
-    /*public String getOutputTechId() {
-        return technician.getId().toString();
-    }*/
-
     public void setPerson(Technician technician) {
         this.technician = technician;
     }

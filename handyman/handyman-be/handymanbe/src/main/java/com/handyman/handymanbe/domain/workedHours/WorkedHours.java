@@ -3,14 +3,16 @@ package com.handyman.handymanbe.domain.workedHours;
 import java.util.Objects;
 
 public class WorkedHours {
-    private final long normalHours;
-    private final long nightHours;
-    private final long sundayHours;
-    private final long extraNormalHours;
-    private final long extraNightHours;
-    private final long extraSundayHours;
+    private final Long totalHours;
+    private final Long normalHours;
+    private final Long nightHours;
+    private final Long sundayHours;
+    private final Long extraNormalHours;
+    private final Long extraNightHours;
+    private final Long extraSundayHours;
 
-    public WorkedHours(long normalHours, long nightHours, long sundayHours, long extraNormalHours, long extraNightHours, long extraSundayHours) {
+    public WorkedHours(Long totalHours, Long normalHours, Long nightHours, Long sundayHours, Long extraNormalHours, Long extraNightHours, Long extraSundayHours) {
+        Objects.requireNonNull(totalHours, "Total hours can not be null");
         Objects.requireNonNull(normalHours, "NormalHours can not be null");
         Objects.requireNonNull(nightHours, "NightHours can not be null");
         Objects.requireNonNull(sundayHours, "SundayHours can not be null");
@@ -18,6 +20,7 @@ public class WorkedHours {
         Objects.requireNonNull(extraNightHours, "ExtraNightHours can not be null");
         Objects.requireNonNull(extraSundayHours, "extraSundayHours can not be null");
 
+        this.totalHours = totalHours;
         this.normalHours = normalHours;
         this.nightHours = nightHours;
         this.sundayHours = sundayHours;
@@ -26,27 +29,31 @@ public class WorkedHours {
         this.extraSundayHours = extraSundayHours;
     }
 
-    public long getNormalHours() {
+    public Long getTotalHours() {
+        return totalHours;
+    }
+    public Long getNormalHours() {
         return normalHours;
     }
 
-    public long getNightHours() {
+    public Long getNightHours() {
         return nightHours;
     }
 
-    public long getSundayHours() {
+    public Long getSundayHours() {
         return sundayHours;
     }
 
-    public long getExtraNormalHours() {
+    public Long getExtraNormalHours() {
         return extraNormalHours;
     }
 
-    public long getExtraNightHours() {
+    public Long getExtraNightHours() {
         return extraNightHours;
     }
 
-    public long getExtraSundayHours() {
+    public Long getExtraSundayHours() {
         return extraSundayHours;
     }
+
 }
