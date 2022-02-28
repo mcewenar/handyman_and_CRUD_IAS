@@ -43,16 +43,14 @@ public class Technician {
         long sundayExtraMinutesWorked = 0L;
         long totalWorkedHours = 0L;
 
-        /*long dayNightMinutesWorked = 0L;
-        long nextDayNightMinutesWorked = 0L;*/
-
         for(Report report : reports) {
             workedMinutesInTheReport = ChronoUnit.HOURS.between(report.getInitDate(), report.getEndDate());
-
+            totalWorkedHours += workedMinutesInTheReport;
             //Domingos:
             if (report.getInitDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
-                sundayMinutesWorked += workedMinutesInTheReport;
-                if (totalWorkedHours > 48) {
+                if (totalWorkedHours < 48) {
+                    sundayMinutesWorked += workedMinutesInTheReport;
+                } else {
                     sundayExtraMinutesWorked += sundayMinutesWorked;
                 }
             }
@@ -61,18 +59,22 @@ public class Technician {
                 //Horas normales: 7-20h (done)
                 if((report.getInitDate().getHour() >= 7 && report.getInitDate().getHour() < 20)
                         && (report.getEndDate().getHour() >= 7 && report.getEndDate().getHour() < 20)) {
-                    normalMinutesWorked += workedMinutesInTheReport;
+                    if (totalWorkedHours < 48) {
+                        normalMinutesWorked += workedMinutesInTheReport;
+                    }
                     //Horas normales extra: +48h
-                    if (totalWorkedHours > 48) {
+                    else {
                         normalExtraMinutesWorked += workedMinutesInTheReport;
                     }
                 }
                 //Horas nocturnas de 0 a 6:59:59 (done)
                 else if((report.getInitDate().getHour() >= 0 && report.getInitDate().getHour() < 7)
                         && (report.getEndDate().getHour() >= 0 && report.getEndDate().getHour() < 7)) {
-                    nightMinutesWorked += workedMinutesInTheReport;
+                    if (totalWorkedHours < 48) {
+                        nightMinutesWorked += workedMinutesInTheReport;
+                    }
                     //Horas nocturnas extra madrugada: +48h
-                    if (totalWorkedHours > 48) {
+                    else {
                         nightExtraMinutesWorked += workedMinutesInTheReport;
                     }
 
@@ -80,91 +82,68 @@ public class Technician {
                 //Horas nocturnas de 20 a 23:59:59: (done)
                 else if((report.getInitDate().getHour() >= 20 && report.getInitDate().getHour() < 24)
                         && (report.getEndDate().getHour() >= 20 && report.getEndDate().getHour() < 24)) {
-                    nightMinutesWorked += workedMinutesInTheReport;
+                    if (totalWorkedHours < 48) {
+                        nightMinutesWorked += workedMinutesInTheReport;
+                    }
                     //Horas nocturnas extra madrugada: +48h
-                    if (totalWorkedHours > 48) {
+                    else {
                         nightExtraMinutesWorked += workedMinutesInTheReport;
                     }
                 }
                 //Horas entre nocturnas de madrugada y horas normales: 0 a 20 (done)
                 else if((report.getInitDate().getHour() >= 0 && report.getInitDate().getHour() <= 7) &&
                         (report.getEndDate().getHour() > 7 && report.getEndDate().getHour() < 20)) {
-                    nightMinutesWorked += 7 - (long) report.getInitDate().getHour();
-                    normalMinutesWorked += (long) report.getEndDate().getHour() - 7;
-
-                    if (totalWorkedHours > 48) {
-                        nightExtraMinutesWorked += nightMinutesWorked;
-                        normalExtraMinutesWorked += normalMinutesWorked;
+                    if (totalWorkedHours < 48) {
+                        nightMinutesWorked += 7 - (long) report.getInitDate().getHour();
+                        normalMinutesWorked += (long) report.getEndDate().getHour() - 13;
+                    } else {
+                        nightExtraMinutesWorked += 7 - (long) report.getInitDate().getHour();
+                        normalExtraMinutesWorked += (long) report.getEndDate().getHour() - 13;
                     }
                 }
                 //Horas normales y nocturnas del mismo día: 7 a 23:59:59 (done)
                 else if((report.getInitDate().getHour() >= 7 && report.getInitDate().getHour() < 20) &&
                         (report.getEndDate().getHour() >= 20 && report.getEndDate().getHour() < 24)) {
-                    nightMinutesWorked += (long) report.getEndDate().getHour() - 20;
-                    normalExtraMinutesWorked += 20 - (long) report.getInitDate().getHour();
-
-                    if (totalWorkedHours > 48) {
-                        nightExtraMinutesWorked += (long) report.getEndDate().getHour() - 20;
-                        normalExtraMinutesWorked += 20 - (long) report.getInitDate().getHour();
+                    if(totalWorkedHours < 48) {
+                        nightMinutesWorked += (long) report.getEndDate().getHour() - 4;
+                        normalMinutesWorked += 13 - (long) report.getInitDate().getHour();
+                    } else {
+                        nightExtraMinutesWorked += (long) report.getEndDate().getHour() - 4;
+                        normalExtraMinutesWorked += 13 - (long) report.getInitDate().getHour();
                     }
                 }
                 //Caso excepcional: horas nocturnas de madrugada AND horas normales AND horas nocturnas (pendiente)
                 //¿Falta algún otro caso?
                 else {
-                    if(report.getInitDate().getHour() < 7 && report.getEndDate().getHour() >= 7) {
-                        nightMinutesWorked += 7 - report.getInitDate().getHour();
-                        if (totalWorkedHours > 48) {
-
-                        }
-
-                    } if(report.getInitDate().getHour() >= 7 && report.getInitDate().getHour() < 20) {
-                        normalMinutesWorked += (long) report.getInitDate().getHour() - 7;
-                        if (totalWorkedHours > 48) {
-
-                        }
-
-                    } if(report.getInitDate().getHour() >= 20 && report.getInitDate().getHour() < 24) {
-                        if (totalWorkedHours > 48) {
-
-                        }
-
+                    if (totalWorkedHours < 48) {
+                        //0-7h
+                        nightMinutesWorked += 7 - (long) report.getInitDate().getHour();
+                        //7-20h
+                        normalMinutesWorked += 13;
+                        //20-24h
+                        nightMinutesWorked += 24 - (long) report.getEndDate().getHour();
+                    } else {
+                        //0-7h
+                        nightExtraMinutesWorked += 7 - (long) report.getInitDate().getHour();
+                        //7-20h
+                        normalExtraMinutesWorked += 13;
+                        //20-24h
+                        nightExtraMinutesWorked += 24 - (long) report.getEndDate().getHour();
                     }
-
-
                 }
             }
-            //nightMinutesWorked += nightExtraMinutesWorked + nextDayNightMinutesWorked;
-            totalWorkedHours += workedMinutesInTheReport;
         }
-        System.out.println("Total de horas trabajadas en una semana: "+ totalWorkedHours);
 
         return new WorkedHours(
-                totalWorkedHours,
-                normalMinutesWorked,
-                nightMinutesWorked,
-                sundayMinutesWorked,
-                normalExtraMinutesWorked,
-                nightExtraMinutesWorked,
-                sundayExtraMinutesWorked
-        );
+            totalWorkedHours,
+            normalMinutesWorked,
+            nightMinutesWorked,
+            sundayMinutesWorked,
+            normalExtraMinutesWorked,
+            nightExtraMinutesWorked,
+            sundayExtraMinutesWorked
+            );
     }
-
-    /*if(     //1. Horas nocturnas madrugada: 24-7
-            ((report.getInitDate().getHour() >= 24 && report.getInitDate().getHour() < 7) &&
-            (report.getEndDate().getHour() >= 24 && report.getEndDate().getHour() < 7))
-            &&
-            //2. Horas normales: 7-7:59:59
-            ((report.getInitDate().getHour() >= 7 && report.getInitDate().getHour() < 20) &&
-            (report.getEndDate().getHour() >= 7 && report.getEndDate().getHour() < 20))
-            &&
-            //3. Horas nocturnas del mismo día: 20-24
-            ((report.getInitDate().getHour() >= 20 && report.getInitDate().getHour() < 24) &&
-            (report.getEndDate().getHour() >= 20 && report.getEndDate().getHour() < 24))
-            ) {
-        System.out.println("hello world");
-
-    }*/
-
     public TechnicianId getId() {
         return id;
     }
