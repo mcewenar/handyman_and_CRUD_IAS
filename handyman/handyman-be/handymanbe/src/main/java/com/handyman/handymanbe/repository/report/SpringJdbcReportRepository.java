@@ -55,7 +55,8 @@ public class SpringJdbcReportRepository implements ReportRepository {
 
     @Override
     public List<Report> getAllFromTechnicianByWeek(Integer week, TechnicianId id) {
-        String query = "SELECT * FROM report WHERE report.week_of_year = ? AND report.technician_id = ?";
+        String query = "SELECT * FROM report WHERE report.week_of_year = ? AND report.technician_id = ? ORDER BY init_date ASC";
+        //ORDER BY ASC
         return jdbcTemplate.query(query, rowMapper, week, id.toString());
     }
 }
