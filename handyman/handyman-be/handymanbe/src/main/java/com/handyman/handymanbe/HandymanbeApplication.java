@@ -1,23 +1,53 @@
 package com.handyman.handymanbe;
 
-import com.handyman.handymanbe.domain.report.Report;
+import com.handyman.handymanbe.repository.report.ReportRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 @SpringBootApplication
 public class HandymanbeApplication {
 
+	public ReportRepository repository;
 	public static void main(String[] args) {
-
 		SpringApplication.run(HandymanbeApplication.class, args);
+		HashMap<String, Long> hoursCalculated = new HashMap<>();
 
-		/*Report report = new Report("ddff6c8c-3e98-45a9-91c2-36e496bf3939","0b83587e-b8dc-4f24-ac56-25270df4a6fb",
-				LocalDateTime.of(2021,11,23,8,40,45),
-				LocalDateTime.of(2021,12,23,8,40,45));*/
+		hoursCalculated.entrySet().forEach(entry -> {
+			System.out.println(entry.getKey() + " " + entry.getValue());
+		});
 
-		//System.out.println(report.getWeekOfYear());
+
+		/*
+
+		HashMap<String, Long> hoursCalculated2;
+		HashMap<String, Long> hoursCalculated3;
+		HashMap<String, Long> hoursCalculated4;
+		hoursCalculated = hoursCalculated(3, 23);
+		hoursCalculated2 = hoursCalculated(3, 14);
+		hoursCalculated3 = hoursCalculated(8, 16);
+		hoursCalculated4 = hoursCalculated(20, 23);
+		System.out.println(hoursCalculated4.get("night0_7"));
+
+        /*hoursCalculated.entrySet().forEach(entry -> {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });*/
+
+        /*hoursCalculated2.entrySet().forEach(entry -> {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });*/
+
+
+        /*hoursCalculated3.entrySet().forEach(entry -> {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        });
+
+		hoursCalculated4.entrySet().forEach(entry -> {
+			System.out.println(entry.getKey() + " " + entry.getValue());
+		});
+	}*/
 
 
 

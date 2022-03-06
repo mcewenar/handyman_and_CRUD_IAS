@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -40,6 +42,211 @@ public class ReportService {
     }
 
     public WorkedHours workedHoursCalculate(List<Report> reports) {
+        long workedMinutesInTheReport;
+        long accumulatorTotalWorked = 0L;
+
+        long remainBetweenNormalAndExtra;
+        long cutValue;
+        //Remove:
+        List<Long> hours;
+
+        long normalMinutesWorked = 0L;
+        long normalExtraMinutesWorked = 0L;
+        long nightMinutesWorked = 0L;
+        long nightExtraMinutesWorked = 0L;
+
+        long sundayMinutesWorked = 0L;
+        long sundayExtraMinutesWorked = 0L;
+
+        HashMap<String, Long> calculatedHoursHash = new HashMap<>();
+
+        for(Report report : reports) {
+            calculatedHoursHash = this.hoursCalculated(report.getInitDate().getHour(),report.getEndDate().getHour());
+            workedMinutesInTheReport = ChronoUnit.HOURS.between(report.getInitDate(), report.getEndDate());
+
+            //Domingos:
+            //CREAR MÉTODO:
+            if (report.getInitDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
+                if (accumulatorTotalWorked <= 48) {
+                    if(accumulatorTotalWorked + workedMinutesInTheReport > 48) {
+                        remainBetweenNormalAndExtra = 48-accumulatorTotalWorked;
+                        //Boundary between sunday hours and overtime
+                        cutValue = report.getInitDate().getHour() + remainBetweenNormalAndExtra;
+                        sundayMinutesWorked += cutValue - report.getInitDate().getHour();
+                        //Extra hours after boundary:
+                        sundayExtraMinutesWorked += report.getEndDate().getHour() - cutValue;
+                    } else {
+                        //Extra hours
+                        sundayMinutesWorked += workedMinutesInTheReport;
+                    }
+
+
+
+                } else {
+                    sundayExtraMinutesWorked += sundayMinutesWorked;
+                }
+            }
+            //Lunes a sábados:
+            else {
+                if (accumulatorTotalWorked <= 48) {
+                    if(accumulatorTotalWorked + workedMinutesInTheReport > 48) {
+
+                        remainBetweenNormalAndExtra = 48-accumulatorTotalWorked;
+                        //Boundary between normal hours and overtime
+                        cutValue = report.getInitDate().getHour() + remainBetweenNormalAndExtra;
+
+
+                        calculatedHoursHash = this.hoursCalculated(report.getInitDate().getHour(),cutValue);
+                        normalMinutesWorked += calculatedHoursHash.get("normalMinutesWorked");
+                        nightMinutesWorked += calculatedHoursHash.get("night0_7");
+                        nightMinutesWorked += calculatedHoursHash.get("night20_24");
+
+                        //Extra hours after boundary:
+                        //CREAR MÉTODO:
+                        //11 hasta end => segunda parte (horas extra)
+                        calculatedHoursHash = this.hoursCalculated(cutValue, report.getEndDate().getHour());
+                        normalExtraMinutesWorked += calculatedHoursHash.get("normalMinutesWorked");
+                        nightExtraMinutesWorked += calculatedHoursHash.get("night0_7");
+                        nightExtraMinutesWorked += calculatedHoursHash.get("night20_24");
+                    } else {
+                        normalMinutesWorked += calculatedHoursHash.get("normalMinutesWorked");
+                        nightMinutesWorked += calculatedHoursHash.get("night0_7");
+                        nightMinutesWorked += calculatedHoursHash.get("night20_24");
+                    }
+                } else {
+                    //Extra hours:
+                    normalExtraMinutesWorked += calculatedHoursHash.get("normalMinutesWorked");
+                    nightExtraMinutesWorked += calculatedHoursHash.get("night0_7");
+                    nightExtraMinutesWorked += calculatedHoursHash.get("night20_24");
+                }
+            }
+            accumulatorTotalWorked += workedMinutesInTheReport;
+
+        }
+
+        return new WorkedHours(
+                accumulatorTotalWorked,
+                normalMinutesWorked,
+                nightMinutesWorked,
+                sundayMinutesWorked,
+                normalExtraMinutesWorked,
+                nightExtraMinutesWorked,
+                sundayExtraMinutesWorked
+        );
+
+    }
+
+    public void calculateSundayHours(long initDate, long endDate, long cutValue) {
+
+
+
+    }
+
+
+    public List<Long> calculateMondayToSaturdayHours(HashMap<String,Long> dictHours) {
+        List<Long> cars = new ArrayList<>();
+        cars.add(dictHours.get("normalMinutesWorked"));
+        cars.add(dictHours.get("night0_7"));
+        cars.add(dictHours.get("night20_24"));
+
+        return cars;
+    }
+
+    public HashMap<String,Long> hoursCalculated(long initHour, long endHour) {
+        HashMap<String, Long> hoursCalculated = new HashMap<>();
+        hoursCalculated.put("night0_7", 0L);
+        hoursCalculated.put("night20_24", 0L);
+        hoursCalculated.put("normalMinutesWorked", 0L);
+        //0-7
+        if(initHour < 7 && endHour >= 7) {
+            hoursCalculated.replace("night0_7", 7 - initHour);
+        } else if(initHour < 7 && endHour < 7) {
+            hoursCalculated.replace("night0_7", endHour - initHour);
+        }
+        //0-20
+        if (endHour > 7) {
+            if(initHour <= 7 && endHour >= 20) {
+                hoursCalculated.replace("normalMinutesWorked", 13L);
+            } else if(initHour < 7 && initHour <= 20) {
+                hoursCalculated.replace("normalMinutesWorked", endHour - 7L);
+            } else if(initHour >= 7 && endHour > 20) {
+                hoursCalculated.replace("normalMinutesWorked", 20L - initHour);
+            } else {
+                hoursCalculated.replace("normalMinutesWorked", endHour - initHour);
+            }
+        }
+        //20-24
+        if(endHour > 20) {
+            hoursCalculated.replace("night20_24", endHour - 20);
+        }
+        return hoursCalculated;
+
+    }
+
+    /*public HashMap<String,Long> hoursCalculatedNormalBoundary(long initHour, long cutValue) {
+        HashMap<String, Long> hoursCalculated = new HashMap<>();
+        long remainBoundary = cutValue - initHour;
+        //0-7
+        if(remainBoundary >= 0) {
+            hoursCalculated.put("night0_7", 7 - initHour);
+            remainBoundary -= hoursCalculated.get("night0_7");
+        }
+        //0-20
+        if(remainBoundary >= 0) {
+            hoursCalculated.put("normalMinutesWorked", remainBoundary);
+            remainBoundary -= hoursCalculated.get("normalMinutesWorked");
+        }
+        //20-24
+        if(remainBoundary >= 0) {
+            hoursCalculated.put("night20_24", remainBoundary);
+        }
+        return hoursCalculated;
+
+    }*/
+
+    /*public HashMap<String,Long> hoursCalculatedExtraBoundary(long cutValue, long endHour) {
+        HashMap<String, Long> hoursCalculated = new HashMap<>();
+        //0-7
+        if (cutValue < 7) {
+            hoursCalculated.put("night0_7", cutValue - 7);
+        }
+        //0-20
+        if (cutValue <= 7 && endHour >= 20) {
+            hoursCalculated.put("normalMinutesWorked", 13L);
+        } else if (cutValue < 7 && cutValue <= 20) {
+            hoursCalculated.put("normalMinutesWorked", endHour - 7L);
+        } else if (cutValue >= 7 && endHour > 20) {
+            hoursCalculated.put("normalMinutesWorked", 20L - cutValue);
+        } else {
+            hoursCalculated.put("normalMinutesWorked", endHour - cutValue);
+        }
+        //20-24
+        if (endHour > 20) {
+            hoursCalculated.put("night20_24", endHour - 20);
+        }
+        return hoursCalculated;
+    }*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+             HashMap<String, Long> calculatedHoursHash = new HashMap<>();
 
         long workedMinutesInTheReport;
         long normalMinutesWorked = 0L;
@@ -56,7 +263,6 @@ public class ReportService {
         long extraNight0_7 = 0L;
         long extraNight20_24 = 0L;
         long remainBetweenNormalAndExtra = 0L;
-        long remain2 = 0L;
 
 
         for(Report report : reports) {
@@ -160,51 +366,32 @@ public class ReportService {
                                     init hasta 11 => primera parte (horas normales)
                                 rango2:
                                     11 hasta end => segunda parte (horas extra)
-                 */
-                        if(workedMinutesInTheReport + accumulatorTotalWorked > 48) {
-                            //remainBetweenNormalAndExtra = report.getInitDate().getHour() + (48-accumulatorTotalWorked);
-                            remainBetweenNormalAndExtra = (48-accumulatorTotalWorked);
-                            night0_7 = ((7 + report.getInitDate().getHour()) - remainBetweenNormalAndExtra);
-                            if(night0_7 + report.getInitDate().getHour() > 7) {
-                                normalMinutesWorked += remainBetweenNormalAndExtra - night0_7;
-                            }
-                            nightMinutesWorked += night0_7 + night20_24;
 
+                                    long workedMinutesInTheReport;
 
+        if(workedMinutesInTheReport + accumulatorTotalWorked > 48) {
+            long cutValue = 0L;
+            remainBetweenNormalAndExtra = (48-accumulatorTotalWorked);
+            cutValue = report.getInitDate().getHour() + remainBetweenNormalAndExtra; //11h donde pasa normales a extra
+            calculatedHoursHash = this.hoursCalculated(report.getInitDate().getHour(),cutValue);
+            normalMinutesWorked += calculatedHoursHash.containsKey("normalMinutesWorked") ? calculatedHoursHash.get("normalMinutesWorked") : 0L;
 
-                        }
-                        //0-7h
-                        extraNight0_7 = (7 - (long) report.getInitDate().getHour());
-                        //7-20h
-                        normalExtraMinutesWorked += 13;
-                        //20-24h
-                        extraNight20_24 = ((long) report.getEndDate().getHour() - 24);
-                        //Total:
-                        nightExtraMinutesWorked += extraNight0_7 + extraNight20_24;
-                    }
+            nightMinutesWorked += calculatedHoursHash.get("night0_7");
+            nightMinutesWorked += calculatedHoursHash.get("night20_24");
+            calculatedHoursHash = this.hoursCalculated(report.getInitDate().getHour(),cutValue);
+
+            normalExtraMinutesWorked = calculatedHoursHash.get("normalMinutesWorked");
+            nightExtraMinutesWorked = calculatedHoursHash.get("night0_7") + calculatedHoursHash.get("night20_24");
                 }
             }
-            accumulatorTotalWorked += workedMinutesInTheReport;
-
-
-            //Get minutes?:
-            //report.getInitDate().getMinute();
         }
+            }
+                    accumulatorTotalWorked += workedMinutesInTheReport;
 
 
 
-
-        return new WorkedHours(
-                accumulatorTotalWorked,
-                normalMinutesWorked,
-                nightMinutesWorked,
-                sundayMinutesWorked,
-                normalExtraMinutesWorked,
-                nightExtraMinutesWorked,
-                sundayExtraMinutesWorked
-        );
-    }
+                    }
 
 
+         */
 
-}
