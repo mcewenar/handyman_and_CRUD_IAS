@@ -47,8 +47,6 @@ public class ReportService {
 
         long remainBetweenNormalAndExtra;
         long cutValue;
-        //Remove:
-        List<Long> hours;
 
         long normalMinutesWorked = 0L;
         long normalExtraMinutesWorked = 0L;
@@ -136,21 +134,6 @@ public class ReportService {
 
     }
 
-    public void calculateSundayHours(long initDate, long endDate, long cutValue) {
-
-
-
-    }
-
-
-    public List<Long> calculateMondayToSaturdayHours(HashMap<String,Long> dictHours) {
-        List<Long> cars = new ArrayList<>();
-        cars.add(dictHours.get("normalMinutesWorked"));
-        cars.add(dictHours.get("night0_7"));
-        cars.add(dictHours.get("night20_24"));
-
-        return cars;
-    }
 
     public HashMap<String,Long> hoursCalculated(long initHour, long endHour) {
         HashMap<String, Long> hoursCalculated = new HashMap<>();
